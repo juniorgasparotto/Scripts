@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -x
+set -e
 echo "start"
 
 # Install Docker (https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository) OU https://get.docker.com/
