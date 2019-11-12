@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# liga o debug
 set -x
+
+# indica para parar quando ocorrer qualquer erro
 set -e
-echo "start"
 
 # Install Docker (https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository) OU https://get.docker.com/
 
@@ -23,10 +25,10 @@ sudo apt-get install -y docker-ce;
 sudo apt-get install -y docker-ce-cli;
 sudo apt-get install -y containerd.io;
  
-sudo docker run hello-world
+# sudo docker run hello-world
 sudo usermod -aG docker $USER
 
-# Instal OpenShift (https://medium.com/@maheshacharya_44641/install-openshift-origin-on-ubuntu-18-04-7b98773c2ee6)
+# Instal OpenShift (https://medium.com/@maheshacharya_44641/install-openshift-origin-on-ubuntu-18-04-7b98773c2ee6; https://medium.com/@rodrigues552/entendendo-a-arquitetura-do-openshift-e-criando-um-cluster-local-ca5f59d9caaf)
 
 wget https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz 
 tar -zvxf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz
@@ -35,4 +37,14 @@ sudo cp oc /usr/local/bin/
 sudo wget -c -P /etc/docker https://raw.githubusercontent.com/juniorgasparotto/Scripts/master/openshift/daemon.json --no-cache
 sudo service docker restart;
 ip=$(hostname -I | cut -f 1 -d ' ');
+
+# Precisa rodar como sudo, do contrário dá problema
 sudo oc cluster up --routing-suffix=$ip --public-hostname=$ip;
+
+# Abrir no browser
+# https://192.168.0.[IP]:8443/
+# user admin: system
+# pwd admin: admin
+
+# user: developer
+# pwd:  developer
