@@ -6,5 +6,5 @@ sudo cat << EOF > /etc/docker/daemon.json
 }
 EOF
 sudo service docker restart;
-ip=$(hostname -I);
+ip=$(hostname -I | cut -f 2 -d ' ');
 oc cluster up --routing-suffix=$ip --public-hostname=$ip;
