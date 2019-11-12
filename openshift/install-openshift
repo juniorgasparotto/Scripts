@@ -41,6 +41,11 @@ ip=$(hostname -I | cut -f 1 -d ' ');
 # Precisa rodar como sudo, do contrário dá problema
 sudo oc cluster up --routing-suffix=$ip --public-hostname=$ip;
 
+# EM CASO DE ERRO O SERVIÇO
+# oc cluster down
+# TENTE NOVAMENTE
+# sudo oc cluster up --routing-suffix=$ip --public-hostname=$ip;
+
 # Abrir no browser
 # https://192.168.0.[IP]:8443/
 # user admin: system
