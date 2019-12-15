@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# liga o debug
+set -x
+
+# indica para parar quando ocorrer qualquer erro
+set -e
+
+# install chocolatey first
+# https://chocolatey.org/install
+
+# instalar o vagrant
+choco install vagrant
+
+# baixar repo com os vagrant files
+mkdir "C:/openshift"
+cd "C:/openshift"
+git clone https://github.com/4linux/4542.git
+vagrant up
+
+# abrir e adicionar
+# C:\Windows\System32\drivers\etc\hosts
+# 172.27.11.10 okd.example.com
+# https://okd.example.com:8443. O usuário e senha são 
+# usr: developer
+# pwd: 4linux
+# Lembre-se de acessar https://hawkular-metrics.172-27-11-10.nip.io e aceitar o certificado auto-assinado.

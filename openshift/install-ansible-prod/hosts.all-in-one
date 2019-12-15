@@ -1,0 +1,26 @@
+[OSEv3:children] 
+masters 
+nodes
+etcd
+
+[OSEv3:vars] 
+ansible_ssh_user=root 
+openshift_deployment_type=origin 
+openshift_enable_service_catalog=false
+openshift_cluster_monitoring_operator_install=false
+openshift_docker_options='--selinux-enabled --log-driver=journald --signature-verification=false -insecure-registry=172.30.0.0/16'
+openshift_master_default_subdomain='192-168-0-115.nip.io'
+openshift_master_identity_providers=[{'name': 'HTPASSWD', 'challenge': 'true', 'login': 'true', ' kind':'HTPasswdPasswordIdentityProvider', 'mappingMethod': 'claim'}] 
+openshift_disable_check='disk_availability,memory_availability,docker_storage' 
+
+openshift_node_groups=[{'name': 'node-config-all-in-one', 'labels': ['node-role.kubernetes.io/master =true', 'node-role.kubernetes.io/infra=true', 'node-role.kubernetes.io/compute=true']}] 
+
+[masters] 
+okd.example.com ansible_connection=local openshift_public_ip='192.168.0.115' openshift_public_hostname='okd.example.com'
+
+[etcd] 
+okd.example.com ansible_connection=local etcd_ip='192.168.0.115'
+
+[nodes] 
+# openshift_node_group_name deve se referir ao dicionário com o nome da chave em openshift_node_groups 
+okd.example.com ansible_connection=local openshift_node_group_name="node-config-all-in-one"

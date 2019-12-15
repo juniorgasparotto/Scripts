@@ -26,3 +26,16 @@ git clone https://github.com/juniorgasparotto/Scripts.git;
 sudo chmod +sx ./Scripts/openshift/install-openshift;
 ./Scripts/openshift/install-openshift;
 ```
+
+5. Open in browser
+
+https://192.168.0.113:8443
+
+6. When restart PC
+
+```
+sudo oc cluster up --routing-suffix=192.168.0.113 --public-hostname=192.168.0.113;
+sudo oc cluster up --routing-suffix=192.168.0.100 --public-hostname=192.168.0.100;
+sudo oc cluster up --routing-suffix=192.168.0.21 --public-hostname=192.168.0.21 --host-data-dir="/mnt/files/data" --host-config-dir="/mnt/files/conf";
+
+```
