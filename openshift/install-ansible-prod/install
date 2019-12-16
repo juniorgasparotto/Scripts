@@ -9,21 +9,24 @@ set -e
 #HOSTS="$(head -n3 /etc/hosts)"
 #echo -e "$HOSTS" > /etc/hosts
 
+cat /etc/os-release
+sudo yum update
+
+cat /etc/hosts
 echo -e "" > /etc/hosts
 cat >> /etc/hosts <<EOF
 127.0.0.1   okd.example.com okd
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-192.168.0.115 okd.example.com
-192.168.0.116 node1.example.com
+192.168.0.117 okd.example.com
 EOF
 
 # Logar como root e adicionar a seguinte linha
 echo "junior  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/junior
 
-yum updade
+
 yum install vim
-yum install git docker net-tools
+# yum install git docker net-tools
 yum install -y PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
 
 # Nenhum pacote python2cryptography disponível.
@@ -32,6 +35,12 @@ rpm -i 'https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2
 git clone -b release-3.11 --single-branch https://github.com/openshift/openshift-ansible /root/openshift-ansible
 cp /root/openshift-ansible/ansible.cfg /etc/ansible/ansible.cfg
 
+cd ~
+git clone https://github.com/juniorgasparotto/Scripts.git
+cp ~/Scripts/openshift/install-ansible-prod/hosts.all-in-one /etc/ansible/hosts
+
+ansible-playbook /root/openshift-ansible/playbooks/prerequisites.yml
+ansible-playbook /root/openshift-ansible/playbooks/deploy_cluster.yml
 
 ssh-keygen
 ssh-copy-id -i /root/.ssh/id_rsa.pub root@192.168.0.116
