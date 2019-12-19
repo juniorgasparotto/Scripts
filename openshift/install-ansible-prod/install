@@ -20,16 +20,16 @@ cat >> /etc/hosts <<EOF
 127.0.0.1   okd.example.com okd
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-192.168.0.107 okd.example.com
+192.168.0.111 okd.example.com
 EOF
 
 # Logar como root e adicionar a seguinte linha
 echo "junior  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/junior
 
 
-yum install vim
 # yum install git docker net-tools
-yum install -y PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
+yum install -y git vim PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
+yum install docker-1.13.1
 
 # Nenhum pacote python2cryptography disponível.
 
