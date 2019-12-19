@@ -15,10 +15,10 @@ openshift_disable_check='disk_availability,memory_availability,docker_storage'
 openshift_node_groups=[{'name': 'node-config-all-in-one', 'labels': ['node-role.kubernetes.io/master=true', 'node-role.kubernetes.io/infra=true', 'node-role.kubernetes.io/compute=true']}] 
 
 [masters] 
-okd.example.com ansible_connection=local openshift_public_ip='192.168.0.104' openshift_public_hostname='okd.example.com'
+okd.example.com ansible_connection=local openshift_public_ip='192.168.0.106' openshift_public_hostname='okd.example.com'
 
 [etcd] 
-okd.example.com ansible_connection=local etcd_ip='192.168.0.104'
+okd.example.com ansible_connection=local etcd_ip='192.168.0.106'
 
 [nodes] 
 # openshift_node_group_name deve se referir ao dicionário com o nome da chave em openshift_node_groups 
