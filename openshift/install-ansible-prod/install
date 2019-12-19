@@ -28,14 +28,15 @@ echo "junior  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/junior
 
 
 # yum install git docker net-tools
-yum install -y git vim PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
-yum install docker-1.13.1
+yum install -y wget git vim PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
+yum install -y docker-1.13.1
+docker run hello-world
 
 # Nenhum pacote python2cryptography disponível.
 
 rpm -i 'https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.5.15-1.el7.ans.noarch.rpm'
 git clone -b release-3.11 --single-branch https://github.com/openshift/openshift-ansible /root/openshift-ansible
-cp /root/openshift-ansible/ansible.cfg /etc/ansible/ansible.cfg
+cp -f /root/openshift-ansible/ansible.cfg /etc/ansible/ansible.cfg
 
 cd ~
 git clone https://github.com/juniorgasparotto/Scripts.git
