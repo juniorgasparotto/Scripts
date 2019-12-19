@@ -1,0 +1,3339 @@
+ansible-playbook 2.5.15
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /bin/ansible-playbook
+  python version = 2.7.5 (default, Aug  7 2019, 00:51:29) [GCC 4.8.5 20150623 (Red Hat 4.8.5-39)]
+Using /etc/ansible/ansible.cfg as config file
+setting up inventory plugins
+Parsed /etc/ansible/hosts inventory source with ini plugin
+statically imported: /root/openshift-ansible/roles/rhel_subscribe/tasks/satellite.yml
+statically imported: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml
+statically imported: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml
+statically imported: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml
+statically imported: /root/openshift-ansible/roles/openshift_excluder/tasks/exclude.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/pre.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/udev_workaround.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/atomic_proxy.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/docker_sanity.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/post.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/registry_auth.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/setup_docker_symlink.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/pre.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/udev_workaround.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/crio_firewall.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/post.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/registry_auth.yml
+statically imported: /root/openshift-ansible/roles/container_runtime/tasks/common/setup_docker_symlink.yml
+Loading callback plugin default of type stdout, v2.0 from /usr/lib/python2.7/site-packages/ansible/plugins/callback/default.pyc
+Loading callback plugin version_requirement of type old, v1.0 from /root/openshift-ansible/roles/lib_utils/callback_plugins/aa_version_requirement.py
+Loading callback plugin installer_checkpoint of type aggregate, v2.0 from /root/openshift-ansible/roles/installer_checkpoint/callback_plugins/installer_checkpoint.py
+Loading callback plugin profile_tasks of type aggregate, v2.0 from /usr/lib/python2.7/site-packages/ansible/plugins/callback/profile_tasks.pyc
+
+PLAYBOOK: prerequisites.yml **********************************************************************************************************************************************
+22 plays in /root/openshift-ansible/playbooks/prerequisites.yml
+
+PLAY [Fail openshift_kubelet_name_override for new hosts] ****************************************************************************************************************
+
+TASK [Gathering Facts] ***************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/prerequisites.yml:3
+Wednesday 18 December 2019  22:19:33 -0300 (0:00:00.451)       0:00:00.451 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/setup.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com]
+META: ran handlers
+
+TASK [Fail when openshift_kubelet_name_override is defined] **************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/prerequisites.yml:6
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:02.858)       0:00:03.310 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialization Checkpoint Start] ***********************************************************************************************************************************
+META: ran handlers
+
+TASK [Set install initialization 'In Progress'] **************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/main.yml:11
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:00.148)       0:00:03.458 **** 
+ok: [okd.example.com] => {
+    "ansible_stats": {
+        "aggregate": true, 
+        "data": {
+            "installer_phase_initialize": {
+                "playbook": "", 
+                "start": "20191218221936Z", 
+                "status": "In Progress", 
+                "title": "Initialization"
+            }
+        }, 
+        "per_host": false
+    }, 
+    "changed": false
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Populate config host groups] ***************************************************************************************************************************************
+META: ran handlers
+
+TASK [Load group name mapping variables] *********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:7
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:00.121)       0:00:03.580 **** 
+ok: [localhost] => {
+    "ansible_facts": {
+        "g_all_hosts": "{{ g_master_hosts | union(g_node_hosts) | union(g_etcd_hosts) | union(g_new_etcd_hosts) | union(g_lb_hosts) | union(g_nfs_hosts) | union(g_new_node_hosts)| union(g_new_master_hosts) | default([]) }}", 
+        "g_etcd_hosts": "{{ groups.etcd | default([]) }}", 
+        "g_glusterfs_hosts": "{{ groups.glusterfs | default([]) }}", 
+        "g_glusterfs_registry_hosts": "{{ groups.glusterfs_registry | default(g_glusterfs_hosts) }}", 
+        "g_lb_hosts": "{{ groups.lb | default([]) }}", 
+        "g_master_hosts": "{{ groups.masters | default([]) }}", 
+        "g_new_etcd_hosts": "{{ groups.new_etcd | default([]) }}", 
+        "g_new_master_hosts": "{{ groups.new_masters | default([]) }}", 
+        "g_new_node_hosts": "{{ groups.new_nodes | default([]) }}", 
+        "g_nfs_hosts": "{{ groups.nfs | default([]) }}", 
+        "g_node_hosts": "{{ groups.nodes | default([]) }}"
+    }, 
+    "ansible_included_var_files": [
+        "/root/openshift-ansible/playbooks/init/vars/cluster_hosts.yml"
+    ], 
+    "changed": false
+}
+
+TASK [Evaluate groups - g_nfs_hosts is single host] **********************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:10
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:00.084)       0:00:03.664 **** 
+skipping: [localhost] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Evaluate oo_all_hosts] *********************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:15
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:00.070)       0:00:03.735 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_all_hosts"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_masters] ***********************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:24
+Wednesday 18 December 2019  22:19:36 -0300 (0:00:00.216)       0:00:03.952 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_masters"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_first_master] ******************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:33
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.128)       0:00:04.081 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => {
+    "add_host": {
+        "groups": [
+            "oo_first_master"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false
+}
+
+TASK [Evaluate oo_new_etcd_to_config] ************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:42
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.114)       0:00:04.195 **** 
+
+TASK [Evaluate oo_masters_to_config] *************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:51
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.068)       0:00:04.264 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_masters_to_config"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_etcd_to_config] ****************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:60
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.117)       0:00:04.382 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_etcd_to_config"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_first_etcd] ********************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:69
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.153)       0:00:04.535 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => {
+    "add_host": {
+        "groups": [
+            "oo_first_etcd"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false
+}
+
+TASK [Evaluate oo_etcd_hosts_to_upgrade] *********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:81
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.151)       0:00:04.686 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_etcd_hosts_to_upgrade"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_etcd_hosts_to_backup] **********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:88
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.144)       0:00:04.831 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_etcd_hosts_to_backup"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_nodes_to_config] ***************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:95
+Wednesday 18 December 2019  22:19:37 -0300 (0:00:00.171)       0:00:05.002 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_nodes_to_config"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+
+TASK [Evaluate oo_lb_to_config] ******************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:104
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.152)       0:00:05.155 **** 
+
+TASK [Evaluate oo_nfs_to_config] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:113
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.077)       0:00:05.233 **** 
+
+TASK [Evaluate oo_glusterfs_to_config] ***********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:122
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.062)       0:00:05.295 **** 
+
+TASK [Evaluate oo_etcd_to_migrate] ***************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/evaluate_groups.yml:131
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.064)       0:00:05.360 **** 
+creating host via 'add_host': hostname=okd.example.com
+ok: [localhost] => (item=okd.example.com) => {
+    "add_host": {
+        "groups": [
+            "oo_etcd_to_migrate"
+        ], 
+        "host_name": "okd.example.com", 
+        "host_vars": {}
+    }, 
+    "changed": false, 
+    "item": "okd.example.com"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Ensure that all non-node hosts are accessible] *********************************************************************************************************************
+META: ran handlers
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialize basic host facts] ***************************************************************************************************************************************
+META: ran handlers
+
+TASK [openshift_sanitize_inventory : include_tasks] **********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:4
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.307)       0:00:05.667 **** 
+statically imported: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/__deprecations_logging.yml
+included: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/deprecations.yml for okd.example.com
+
+TASK [openshift_sanitize_inventory : Check for usage of deprecated variables] ********************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/deprecations.yml:4
+Wednesday 18 December 2019  22:19:38 -0300 (0:00:00.386)       0:00:06.054 **** 
+ok: [okd.example.com] => {
+    "censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", 
+    "changed": false
+}
+
+TASK [openshift_sanitize_inventory : debug] ******************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/deprecations.yml:13
+Wednesday 18 December 2019  22:19:39 -0300 (0:00:00.490)       0:00:06.545 **** 
+skipping: [okd.example.com] => {}
+
+TASK [openshift_sanitize_inventory : set_stats] **************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/deprecations.yml:14
+Wednesday 18 December 2019  22:19:39 -0300 (0:00:00.134)       0:00:06.680 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : set_fact] ***************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/__deprecations_logging.yml:10
+Wednesday 18 December 2019  22:19:39 -0300 (0:00:00.157)       0:00:06.837 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_logging_elasticsearch_ops_pvc_dynamic": "", 
+        "openshift_logging_elasticsearch_ops_pvc_prefix": "", 
+        "openshift_logging_elasticsearch_ops_pvc_size": "", 
+        "openshift_logging_elasticsearch_pvc_dynamic": "", 
+        "openshift_logging_elasticsearch_pvc_prefix": "", 
+        "openshift_logging_elasticsearch_pvc_size": ""
+    }, 
+    "changed": false
+}
+
+TASK [openshift_sanitize_inventory : Standardize on latest variable names] ***********************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:7
+Wednesday 18 December 2019  22:19:39 -0300 (0:00:00.182)       0:00:07.020 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "deployment_subtype": "basic", 
+        "openshift_deployment_subtype": "basic"
+    }, 
+    "changed": false
+}
+
+TASK [openshift_sanitize_inventory : Normalize openshift_release] ********************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:12
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.148)       0:00:07.169 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Abort when openshift_release is invalid] ********************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:22
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.106)       0:00:07.276 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : include_tasks] **********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:31
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.109)       0:00:07.385 **** 
+included: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml for okd.example.com
+
+TASK [openshift_sanitize_inventory : set_fact] ***************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml:5
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.276)       0:00:07.661 **** 
+
+TASK [openshift_sanitize_inventory : Ensure that dynamic provisioning is set if using dynamic storage] *******************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml:12
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.186)       0:00:07.848 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure the hosted registry's GlusterFS storage is configured correctly] *************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml:28
+Wednesday 18 December 2019  22:19:40 -0300 (0:00:00.165)       0:00:08.013 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure the hosted registry's GlusterFS storage is configured correctly] *************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml:41
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.148)       0:00:08.162 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Check for deprecated prometheus/grafana install] ************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/unsupported.yml:53
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.132)       0:00:08.295 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure clusterid is set along with the cloudprovider] *******************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:35
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.134)       0:00:08.429 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure ansible_service_broker_remove and ansible_service_broker_install are mutually exclusive] *************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:48
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.156)       0:00:08.586 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure template_service_broker_remove and template_service_broker_install are mutually exclusive] ***********************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:57
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.134)       0:00:08.720 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure that all requires vsphere configuration variables are set] *******************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:66
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.105)       0:00:08.826 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : ensure provider configuration variables are defined] ********************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:83
+Wednesday 18 December 2019  22:19:41 -0300 (0:00:00.137)       0:00:08.964 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure removed web console extension variables are not set] *************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:98
+Wednesday 18 December 2019  22:19:42 -0300 (0:00:00.148)       0:00:09.112 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure that web console port matches API server port] *******************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:109
+Wednesday 18 December 2019  22:19:42 -0300 (0:00:00.114)       0:00:09.227 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : At least one master is schedulable] *************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:119
+Wednesday 18 December 2019  22:19:42 -0300 (0:00:00.117)       0:00:09.345 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_sanitize_inventory : Ensure openshift_master_cluster_hostname is set when deploying multiple masters] ****************************************************
+task path: /root/openshift-ansible/roles/openshift_sanitize_inventory/tasks/main.yml:131
+Wednesday 18 December 2019  22:19:42 -0300 (0:00:00.220)       0:00:09.565 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Detecting Operating System from ostree_booted] *********************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:19
+Wednesday 18 December 2019  22:19:42 -0300 (0:00:00.134)       0:00:09.700 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": false, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/run/ostree-booted"
+        }
+    }, 
+    "stat": {
+        "exists": false
+    }
+}
+
+TASK [set openshift_deployment_type if unset] ****************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:28
+Wednesday 18 December 2019  22:19:43 -0300 (0:00:00.847)       0:00:10.548 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [initialize_facts set fact openshift_is_atomic] *********************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:35
+Wednesday 18 December 2019  22:19:43 -0300 (0:00:00.120)       0:00:10.668 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_is_atomic": false
+    }, 
+    "changed": false
+}
+
+TASK [Determine Atomic Host Docker Version] ******************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:51
+Wednesday 18 December 2019  22:19:43 -0300 (0:00:00.156)       0:00:10.825 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [assert atomic host docker version is 1.12 or later] ****************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:55
+Wednesday 18 December 2019  22:19:43 -0300 (0:00:00.129)       0:00:10.954 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Retrieve existing master configs and validate] *********************************************************************************************************************
+META: ran handlers
+
+TASK [openshift_control_plane : stat] ************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_control_plane/tasks/check_existing_config.yml:3
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.155)       0:00:11.110 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": false, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/etc/origin/master/master-config.yaml"
+        }
+    }, 
+    "stat": {
+        "exists": false
+    }
+}
+
+TASK [openshift_control_plane : slurp] ***********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_control_plane/tasks/check_existing_config.yml:10
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.400)       0:00:11.510 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_control_plane : set_fact] ********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_control_plane/tasks/check_existing_config.yml:17
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.121)       0:00:11.632 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_control_plane : Check for file paths outside of /etc/origin/master in master's config] *******************************************************************
+task path: /root/openshift-ansible/roles/openshift_control_plane/tasks/check_existing_config.yml:23
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.149)       0:00:11.782 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_control_plane : set_fact] ********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_control_plane/tasks/check_existing_config.yml:28
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.104)       0:00:11.887 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:76
+Wednesday 18 December 2019  22:19:44 -0300 (0:00:00.104)       0:00:11.991 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:79
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.121)       0:00:12.113 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialize special first-master variables] *************************************************************************************************************************
+META: ran handlers
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:93
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.159)       0:00:12.272 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:102
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.133)       0:00:12.405 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "first_master_client_binary": "oc", 
+        "l_osm_default_node_selector": "node-role.kubernetes.io/compute=true", 
+        "openshift_client_binary": "oc"
+    }, 
+    "changed": false
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Disable web console if required] ***********************************************************************************************************************************
+META: ran handlers
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/basic_facts.yml:115
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.190)       0:00:12.596 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Setup yum repositories for all hosts] ******************************************************************************************************************************
+META: ran handlers
+
+TASK [rhel_subscribe : fail] *********************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:2
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.174)       0:00:12.771 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Install Red Hat Subscription manager] *************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:6
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.137)       0:00:12.909 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Is host already registered?] **********************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:13
+Wednesday 18 December 2019  22:19:45 -0300 (0:00:00.113)       0:00:13.022 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Satellite preparation] ****************************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/satellite.yml:2
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.191)       0:00:13.214 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Register host using user/password] ****************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:22
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.128)       0:00:13.343 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Register host using activation key] ***************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:33
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.139)       0:00:13.482 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Determine if OpenShift Pool Already Attached] *****************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:44
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.122)       0:00:13.605 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [rhel_subscribe : Attach to OpenShift Pool] *************************************************************************************************************************
+task path: /root/openshift-ansible/roles/rhel_subscribe/tasks/main.yml:50
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.114)       0:00:13.720 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_repos : Ensure libselinux-python is installed] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:6
+Wednesday 18 December 2019  22:19:46 -0300 (0:00:00.155)       0:00:13.875 **** 
+Running yum
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/packaging/os/yum.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false, 
+            "conf_file": null, 
+            "disable_gpg_check": false, 
+            "disable_plugin": [], 
+            "disablerepo": null, 
+            "enable_plugin": [], 
+            "enablerepo": null, 
+            "exclude": null, 
+            "install_repoquery": true, 
+            "installroot": "/", 
+            "list": null, 
+            "name": [
+                "libselinux-python"
+            ], 
+            "security": false, 
+            "skip_broken": false, 
+            "state": "present", 
+            "update_cache": false, 
+            "update_only": false, 
+            "validate_certs": true
+        }
+    }, 
+    "msg": "", 
+    "rc": 0, 
+    "results": [
+        "libselinux-python-2.5-14.1.el7.x86_64 providing libselinux-python is already installed"
+    ]
+}
+
+TASK [openshift_repos : Remove openshift_additional.repo file] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:13
+Wednesday 18 December 2019  22:19:48 -0300 (0:00:02.183)       0:00:16.059 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/file.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": null, 
+            "content": null, 
+            "delimiter": null, 
+            "dest": "/etc/yum.repos.d/openshift_additional.repo", 
+            "diff_peek": null, 
+            "directory_mode": null, 
+            "follow": true, 
+            "force": false, 
+            "group": null, 
+            "mode": null, 
+            "original_basename": null, 
+            "owner": null, 
+            "path": "/etc/yum.repos.d/openshift_additional.repo", 
+            "recurse": false, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "state": "absent", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "path": "/etc/yum.repos.d/openshift_additional.repo", 
+    "state": "absent"
+}
+
+TASK [openshift_repos : Create any additional repos that are defined] ****************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:18
+Wednesday 18 December 2019  22:19:50 -0300 (0:00:01.149)       0:00:17.209 **** 
+
+TASK [openshift_repos : include_tasks] ***********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:39
+Wednesday 18 December 2019  22:19:50 -0300 (0:00:00.129)       0:00:17.339 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_repos : include_tasks] ***********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:45
+Wednesday 18 December 2019  22:19:50 -0300 (0:00:00.211)       0:00:17.550 **** 
+included: /root/openshift-ansible/roles/openshift_repos/tasks/centos_repos.yml for okd.example.com
+
+TASK [openshift_repos : Configure origin gpg keys] ***********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/centos_repos.yml:7
+Wednesday 18 December 2019  22:19:50 -0300 (0:00:00.317)       0:00:17.868 **** 
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<okd.example.com> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454 `" && echo ansible-tmp-1576718390.88-241664115308454="` echo /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454 `" ) && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> PUT /root/openshift-ansible/roles/openshift_repos/files/origin/gpg_keys/openshift-ansible-CentOS-SIG-PaaS TO /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/source
+<okd.example.com> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/ /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/source && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/copy.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/ > /dev/null 2>&1 && sleep 0'
+NOTIFIED HANDLER openshift_repos : refresh cache for okd.example.com
+changed: [okd.example.com] => {
+    "changed": true, 
+    "checksum": "e350bf139f91980ff9cc39877e14643ba3139da1", 
+    "dest": "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS", 
+    "diff": [], 
+    "gid": 0, 
+    "group": "root", 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": false, 
+            "checksum": "e350bf139f91980ff9cc39877e14643ba3139da1", 
+            "content": null, 
+            "delimiter": null, 
+            "dest": "/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS", 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": true, 
+            "group": null, 
+            "local_follow": null, 
+            "mode": null, 
+            "original_basename": "openshift-ansible-CentOS-SIG-PaaS", 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": "/root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/source", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "md5sum": "dcc03fee597ca1939365152258676a1e", 
+    "mode": "0644", 
+    "owner": "root", 
+    "secontext": "system_u:object_r:cert_t:s0", 
+    "size": 1037, 
+    "src": "/root/.ansible/tmp/ansible-tmp-1576718390.88-241664115308454/source", 
+    "state": "file", 
+    "uid": 0
+}
+
+TASK [openshift_repos : Configure correct origin release repository] *****************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/centos_repos.yml:15
+Wednesday 18 December 2019  22:19:52 -0300 (0:00:01.644)       0:00:19.513 **** 
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<okd.example.com> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257 `" && echo ansible-tmp-1576718392.51-13366868631257="` echo /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257 `" ) && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> PUT /root/.ansible/tmp/ansible-local-96235WcL4t/tmpvj3EoB/CentOS-OpenShift-Origin311.repo.j2 TO /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/source
+<okd.example.com> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/ /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/source && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/copy.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/ > /dev/null 2>&1 && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "checksum": "40be605e50d06962349f81496db7b808dbf1a9d6", 
+    "dest": "/etc/yum.repos.d/CentOS-OpenShift-Origin311.repo", 
+    "diff": [], 
+    "gid": 0, 
+    "group": "root", 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": false, 
+            "checksum": "40be605e50d06962349f81496db7b808dbf1a9d6", 
+            "content": null, 
+            "delimiter": null, 
+            "dest": "/etc/yum.repos.d/CentOS-OpenShift-Origin311.repo", 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": true, 
+            "group": null, 
+            "local_follow": null, 
+            "mode": null, 
+            "original_basename": "CentOS-OpenShift-Origin311.repo.j2", 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": "/root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/source", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "md5sum": "9a72efac86f9b44e57404fb19c096c8e", 
+    "mode": "0644", 
+    "owner": "root", 
+    "secontext": "system_u:object_r:system_conf_t:s0", 
+    "size": 890, 
+    "src": "/root/.ansible/tmp/ansible-tmp-1576718392.51-13366868631257/source", 
+    "state": "file", 
+    "uid": 0
+}
+
+TASK [openshift_repos : Ensure clean repo cache in the event repos have been changed manually] ***************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:52
+Wednesday 18 December 2019  22:19:53 -0300 (0:00:01.097)       0:00:20.610 **** 
+changed: [okd.example.com] => {
+    "msg": "First run of openshift_repos"
+}
+
+TASK [openshift_repos : Record that openshift_repos already ran] *********************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:58
+Wednesday 18 December 2019  22:19:53 -0300 (0:00:00.227)       0:00:20.837 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "r_openshift_repos_has_run": true
+    }, 
+    "changed": false
+}
+
+RUNNING HANDLER [openshift_repos : refresh cache] ************************************************************************************************************************
+Wednesday 18 December 2019  22:19:53 -0300 (0:00:00.128)       0:00:20.966 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "cmd": [
+        "yum", 
+        "clean", 
+        "all"
+    ], 
+    "delta": "0:00:00.668952", 
+    "end": "2019-12-18 22:19:56.060142", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "yum clean all", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": false
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:19:55.391190", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "Plugins carregados: fastestmirror\nLimpando repositórios:base centos-openshift-origin311 extras updates\nCleaning up list of fastest mirrors", 
+    "stdout_lines": [
+        "Plugins carregados: fastestmirror", 
+        "Limpando repositórios:base centos-openshift-origin311 extras updates", 
+        "Cleaning up list of fastest mirrors"
+    ]
+}
+META: ran handlers
+META: ran handlers
+META: ran handlers
+
+PLAY [Install packages necessary for installer] **************************************************************************************************************************
+META: ran handlers
+
+TASK [Determine if chrony is installed] **********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/base_packages.yml:9
+Wednesday 18 December 2019  22:19:56 -0300 (0:00:02.378)       0:00:23.345 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "cmd": [
+        "rpm", 
+        "-q", 
+        "chrony"
+    ], 
+    "delta": "0:00:00.071248", 
+    "end": "2019-12-18 22:19:56.697793", 
+    "failed_when_result": false, 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "rpm -q chrony", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:19:56.626545", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "chrony-3.4-1.el7.x86_64", 
+    "stdout_lines": [
+        "chrony-3.4-1.el7.x86_64"
+    ]
+}
+
+TASK [Install ntp package] ***********************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/base_packages.yml:16
+Wednesday 18 December 2019  22:19:56 -0300 (0:00:00.621)       0:00:23.966 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Start and enable ntpd/chronyd] *************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/base_packages.yml:26
+Wednesday 18 December 2019  22:19:57 -0300 (0:00:00.182)       0:00:24.150 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "cmd": [
+        "timedatectl", 
+        "set-ntp", 
+        "true"
+    ], 
+    "delta": "0:00:00.136660", 
+    "end": "2019-12-18 22:19:57.734240", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "timedatectl set-ntp true", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:19:57.597580", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "", 
+    "stdout_lines": []
+}
+
+TASK [Ensure minimum kernel version] *************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/base_packages.yml:30
+Wednesday 18 December 2019  22:19:57 -0300 (0:00:00.835)       0:00:24.985 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Ensure openshift-ansible installer package deps are installed] *****************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/base_packages.yml:51
+Wednesday 18 December 2019  22:19:58 -0300 (0:00:00.223)       0:00:25.209 **** 
+Running yum
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/packaging/os/yum.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false, 
+            "conf_file": null, 
+            "disable_gpg_check": false, 
+            "disable_plugin": [], 
+            "disablerepo": null, 
+            "enable_plugin": [], 
+            "enablerepo": null, 
+            "exclude": null, 
+            "install_repoquery": true, 
+            "installroot": "/", 
+            "list": null, 
+            "name": [
+                "python-ipaddress", 
+                "iproute", 
+                "dbus-python", 
+                "PyYAML", 
+                "libsemanage-python", 
+                "yum-utils", 
+                "python-docker-py"
+            ], 
+            "security": false, 
+            "skip_broken": false, 
+            "state": "present", 
+            "update_cache": false, 
+            "update_only": false, 
+            "validate_certs": true
+        }
+    }, 
+    "msg": "", 
+    "rc": 0, 
+    "results": [
+        "python-ipaddress-1.0.16-2.el7.noarch providing python-ipaddress is already installed", 
+        "iproute-4.11.0-25.el7_7.2.x86_64 providing iproute is already installed", 
+        "dbus-python-1.1.1-9.el7.x86_64 providing dbus-python is already installed", 
+        "PyYAML-3.10-11.el7.x86_64 providing PyYAML is already installed", 
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: centos.xpg.com.br\n * extras: mirror.ufscar.br\n * updates: mirror.ufscar.br\nResolving Dependencies\n--> Running transaction check\n---> Package libsemanage-python.x86_64 0:2.5-14.el7 will be installed\n---> Package python-docker-py.noarch 1:1.10.6-9.el7_6 will be installed\n--> Processing Dependency: python-websocket-client >= 0.32.0 for package: 1:python-docker-py-1.10.6-9.el7_6.noarch\n--> Processing Dependency: python-requests for package: 1:python-docker-py-1.10.6-9.el7_6.noarch\n--> Processing Dependency: python-docker-pycreds for package: 1:python-docker-py-1.10.6-9.el7_6.noarch\n---> Package yum-utils.noarch 0:1.1.31-52.el7 will be installed\n--> Processing Dependency: python-kitchen for package: yum-utils-1.1.31-52.el7.noarch\n--> Processing Dependency: libxml2-python for package: yum-utils-1.1.31-52.el7.noarch\n--> Running transaction check\n---> Package libxml2-python.x86_64 0:2.9.1-6.el7_2.3 will be installed\n---> Package python-docker-pycreds.noarch 1:0.3.0-9.el7_6 will be installed\n---> Package python-kitchen.noarch 0:1.1.1-5.el7 will be installed\n--> Processing Dependency: python-chardet for package: python-kitchen-1.1.1-5.el7.noarch\n---> Package python-requests.noarch 0:2.6.0-8.el7_7 will be installed\n--> Processing Dependency: python-urllib3 >= 1.10.2-1 for package: python-requests-2.6.0-8.el7_7.noarch\n---> Package python-websocket-client.noarch 0:0.56.0-3.git3c25814.el7 will be installed\n--> Running transaction check\n---> Package python-chardet.noarch 0:2.2.1-3.el7 will be installed\n---> Package python-urllib3.noarch 0:1.10.2-7.el7 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                   Arch     Version                     Repository\n                                                                           Size\n================================================================================\nInstalling:\n libsemanage-python        x86_64   2.5-14.el7                  base      113 k\n python-docker-py          noarch   1:1.10.6-9.el7_6            extras    102 k\n yum-utils                 noarch   1.1.31-52.el7               base      121 k\nInstalling for dependencies:\n libxml2-python            x86_64   2.9.1-6.el7_2.3             base      247 k\n python-chardet            noarch   2.2.1-3.el7                 base      227 k\n python-docker-pycreds     noarch   1:0.3.0-9.el7_6             extras     20 k\n python-kitchen            noarch   1.1.1-5.el7                 base      267 k\n python-requests           noarch   2.6.0-8.el7_7               updates    95 k\n python-urllib3            noarch   1.10.2-7.el7                base      103 k\n python-websocket-client   noarch   0.56.0-3.git3c25814.el7     extras     66 k\n\nTransaction Summary\n================================================================================\nInstall  3 Packages (+7 Dependent packages)\n\nTotal download size: 1.3 M\nInstalled size: 6.0 M\nDownloading packages:\n--------------------------------------------------------------------------------\nTotal                                              648 kB/s | 1.3 MB  00:02     \nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : python-chardet-2.2.1-3.el7.noarch                           1/10 \n  Installing : python-kitchen-1.1.1-5.el7.noarch                           2/10 \n  Installing : python-websocket-client-0.56.0-3.git3c25814.el7.noarch      3/10 \n  Installing : libxml2-python-2.9.1-6.el7_2.3.x86_64                       4/10 \n  Installing : python-urllib3-1.10.2-7.el7.noarch                          5/10 \n  Installing : python-requests-2.6.0-8.el7_7.noarch                        6/10 \n  Installing : 1:python-docker-pycreds-0.3.0-9.el7_6.noarch                7/10 \n  Installing : 1:python-docker-py-1.10.6-9.el7_6.noarch                    8/10 \n  Installing : yum-utils-1.1.31-52.el7.noarch                              9/10 \n  Installing : libsemanage-python-2.5-14.el7.x86_64                       10/10 \n  Verifying  : 1:python-docker-pycreds-0.3.0-9.el7_6.noarch                1/10 \n  Verifying  : python-urllib3-1.10.2-7.el7.noarch                          2/10 \n  Verifying  : python-chardet-2.2.1-3.el7.noarch                           3/10 \n  Verifying  : python-requests-2.6.0-8.el7_7.noarch                        4/10 \n  Verifying  : libsemanage-python-2.5-14.el7.x86_64                        5/10 \n  Verifying  : yum-utils-1.1.31-52.el7.noarch                              6/10 \n  Verifying  : libxml2-python-2.9.1-6.el7_2.3.x86_64                       7/10 \n  Verifying  : python-websocket-client-0.56.0-3.git3c25814.el7.noarch      8/10 \n  Verifying  : python-kitchen-1.1.1-5.el7.noarch                           9/10 \n  Verifying  : 1:python-docker-py-1.10.6-9.el7_6.noarch                   10/10 \n\nInstalled:\n  libsemanage-python.x86_64 0:2.5-14.el7                                        \n  python-docker-py.noarch 1:1.10.6-9.el7_6                                      \n  yum-utils.noarch 0:1.1.31-52.el7                                              \n\nDependency Installed:\n  libxml2-python.x86_64 0:2.9.1-6.el7_2.3                                       \n  python-chardet.noarch 0:2.2.1-3.el7                                           \n  python-docker-pycreds.noarch 1:0.3.0-9.el7_6                                  \n  python-kitchen.noarch 0:1.1.1-5.el7                                           \n  python-requests.noarch 0:2.6.0-8.el7_7                                        \n  python-urllib3.noarch 0:1.10.2-7.el7                                          \n  python-websocket-client.noarch 0:0.56.0-3.git3c25814.el7                      \n\nComplete!\n"
+    ]
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialize cluster facts] ******************************************************************************************************************************************
+META: ran handlers
+
+TASK [get openshift_current_version] *************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:10
+Wednesday 18 December 2019  22:20:39 -0300 (0:00:40.869)       0:01:06.079 **** 
+Using module file /root/openshift-ansible/roles/lib_utils/library/get_current_openshift_version.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "ansible_facts": {}, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "deployment_type": "origin"
+        }
+    }
+}
+
+TASK [set_fact openshift_portal_net if present on masters] ***************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:19
+Wednesday 18 December 2019  22:20:40 -0300 (0:00:01.933)       0:01:08.012 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Gather Cluster facts] **********************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:27
+Wednesday 18 December 2019  22:20:41 -0300 (0:00:00.353)       0:01:08.366 **** 
+Using module file /root/openshift-ansible/roles/openshift_facts/library/openshift_facts.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift": {
+            "common": {
+                "all_hostnames": [
+                    "192.168.0.106", 
+                    "okd.example.com"
+                ], 
+                "config_base": "/etc/origin", 
+                "dns_domain": "cluster.local", 
+                "generate_no_proxy_hosts": true, 
+                "hostname": "192.168.0.106", 
+                "internal_hostnames": [
+                    "192.168.0.106"
+                ], 
+                "ip": "192.168.0.106", 
+                "kube_svc_ip": "172.30.0.1", 
+                "portal_net": "172.30.0.0/16", 
+                "public_hostname": "okd.example.com", 
+                "public_ip": "192.168.0.106", 
+                "raw_hostname": "localhost.localdomain"
+            }, 
+            "current_config": {}
+        }
+    }, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "additive_facts_to_overwrite": [], 
+            "attributes": null, 
+            "backup": null, 
+            "content": null, 
+            "delimiter": null, 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": null, 
+            "group": null, 
+            "local_facts": {
+                "cloudprovider": "", 
+                "generate_no_proxy_hosts": true, 
+                "hostname": "", 
+                "http_proxy": "", 
+                "https_proxy": "", 
+                "no_proxy": "", 
+                "portal_net": "", 
+                "public_hostname": "okd.example.com", 
+                "public_ip": "192.168.0.106"
+            }, 
+            "mode": null, 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "role": "common", 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "system_facts": {
+                "ansible_default_ipv4": {
+                    "address": "192.168.0.106", 
+                    "alias": "enp0s3", 
+                    "broadcast": "192.168.0.255", 
+                    "gateway": "192.168.0.1", 
+                    "interface": "enp0s3", 
+                    "macaddress": "08:00:27:ee:9d:8e", 
+                    "mtu": 1500, 
+                    "netmask": "255.255.255.0", 
+                    "network": "192.168.0.0", 
+                    "type": "ether"
+                }, 
+                "ansible_fqdn": "localhost.localdomain", 
+                "ansible_nodename": "localhost.localdomain", 
+                "ansible_product_name": "VirtualBox", 
+                "ansible_product_version": "1.2", 
+                "ansible_system_vendor": "innotek GmbH", 
+                "ansible_virtualization_role": "guest", 
+                "ansible_virtualization_type": "virtualbox"
+            }, 
+            "unsafe_writes": null
+        }
+    }
+}
+
+TASK [Set fact of no_proxy_internal_hostnames] ***************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:42
+Wednesday 18 December 2019  22:20:43 -0300 (0:00:01.784)       0:01:10.150 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Initialize openshift.node.sdn_mtu] *********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:61
+Wednesday 18 December 2019  22:20:43 -0300 (0:00:00.131)       0:01:10.281 **** 
+Using module file /root/openshift-ansible/roles/openshift_facts/library/openshift_facts.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift": {
+            "common": {
+                "all_hostnames": [
+                    "192.168.0.106", 
+                    "okd.example.com"
+                ], 
+                "config_base": "/etc/origin", 
+                "dns_domain": "cluster.local", 
+                "generate_no_proxy_hosts": true, 
+                "hostname": "192.168.0.106", 
+                "internal_hostnames": [
+                    "192.168.0.106"
+                ], 
+                "ip": "192.168.0.106", 
+                "kube_svc_ip": "172.30.0.1", 
+                "portal_net": "172.30.0.0/16", 
+                "public_hostname": "okd.example.com", 
+                "public_ip": "192.168.0.106", 
+                "raw_hostname": "localhost.localdomain"
+            }, 
+            "current_config": {
+                "roles": [
+                    "node"
+                ]
+            }, 
+            "node": {
+                "nodename": "localhost.localdomain", 
+                "sdn_mtu": "1450"
+            }
+        }
+    }, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "additive_facts_to_overwrite": [], 
+            "attributes": null, 
+            "backup": null, 
+            "content": null, 
+            "delimiter": null, 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": null, 
+            "group": null, 
+            "local_facts": {
+                "sdn_mtu": ""
+            }, 
+            "mode": null, 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "role": "node", 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "system_facts": {
+                "ansible_default_ipv4": {
+                    "address": "192.168.0.106", 
+                    "alias": "enp0s3", 
+                    "broadcast": "192.168.0.255", 
+                    "gateway": "192.168.0.1", 
+                    "interface": "enp0s3", 
+                    "macaddress": "08:00:27:ee:9d:8e", 
+                    "mtu": 1500, 
+                    "netmask": "255.255.255.0", 
+                    "network": "192.168.0.0", 
+                    "type": "ether"
+                }, 
+                "ansible_fqdn": "localhost.localdomain", 
+                "ansible_nodename": "localhost.localdomain", 
+                "ansible_product_name": "VirtualBox", 
+                "ansible_product_version": "1.2", 
+                "ansible_system_vendor": "innotek GmbH", 
+                "ansible_virtualization_role": "guest", 
+                "ansible_virtualization_type": "virtualbox"
+            }, 
+            "unsafe_writes": null
+        }
+    }
+}
+
+TASK [set_fact l_kubelet_node_name] **************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:67
+Wednesday 18 December 2019  22:20:44 -0300 (0:00:00.874)       0:01:11.156 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "l_kubelet_node_name": "localhost.localdomain"
+    }, 
+    "changed": false
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialize etcd host variables] ************************************************************************************************************************************
+META: ran handlers
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:80
+Wednesday 18 December 2019  22:20:44 -0300 (0:00:00.188)       0:01:11.345 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_master_etcd_hosts": [
+            "192.168.0.106"
+        ], 
+        "openshift_master_etcd_port": "2379", 
+        "openshift_no_proxy_etcd_host_ips": "192.168.0.106"
+    }, 
+    "changed": false
+}
+
+TASK [set_fact] **********************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/cluster_facts.yml:91
+Wednesday 18 December 2019  22:20:44 -0300 (0:00:00.379)       0:01:11.725 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_master_etcd_urls": [
+            "https://192.168.0.106:2379"
+        ]
+    }, 
+    "changed": false
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Determine openshift_version to configure on first master] **********************************************************************************************************
+META: ran handlers
+
+TASK [include_role] ******************************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/version.yml:5
+Wednesday 18 December 2019  22:20:44 -0300 (0:00:00.233)       0:01:11.958 **** 
+
+TASK [openshift_version : Use openshift_current_version fact as version to configure if already installed] ***************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:6
+Wednesday 18 December 2019  22:20:45 -0300 (0:00:00.447)       0:01:12.406 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_version : Set openshift_version to openshift_release if undefined] ***************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:14
+Wednesday 18 December 2019  22:20:45 -0300 (0:00:00.131)       0:01:12.538 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_version": "3.11"
+    }, 
+    "changed": false
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:21
+Wednesday 18 December 2019  22:20:45 -0300 (0:00:00.187)       0:01:12.725 **** 
+ok: [okd.example.com] => {
+    "msg": "openshift_pkg_version was not defined. Falling back to -3.11"
+}
+
+TASK [openshift_version : set_fact] **************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:23
+Wednesday 18 December 2019  22:20:45 -0300 (0:00:00.168)       0:01:12.894 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_pkg_version": "-3.11*"
+    }, 
+    "changed": false
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:30
+Wednesday 18 December 2019  22:20:45 -0300 (0:00:00.160)       0:01:13.054 **** 
+ok: [okd.example.com] => {
+    "msg": "openshift_image_tag was not defined. Falling back to v3.11"
+}
+
+TASK [openshift_version : set_fact] **************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:32
+Wednesday 18 December 2019  22:20:46 -0300 (0:00:00.187)       0:01:13.242 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "openshift_image_tag": "v3.11"
+    }, 
+    "changed": false
+}
+
+TASK [openshift_version : assert openshift_release in openshift_image_tag] ***********************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:36
+Wednesday 18 December 2019  22:20:46 -0300 (0:00:00.204)       0:01:13.446 **** 
+ok: [okd.example.com] => {
+    "changed": false, 
+    "msg": "All assertions passed"
+}
+
+TASK [openshift_version : assert openshift_release in openshift_pkg_version] *********************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:43
+Wednesday 18 December 2019  22:20:46 -0300 (0:00:00.147)       0:01:13.594 **** 
+ok: [okd.example.com] => {
+    "changed": false, 
+    "msg": "All assertions passed"
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:51
+Wednesday 18 December 2019  22:20:46 -0300 (0:00:00.176)       0:01:13.771 **** 
+ok: [okd.example.com] => {
+    "openshift_release": "3.11"
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:53
+Wednesday 18 December 2019  22:20:46 -0300 (0:00:00.269)       0:01:14.040 **** 
+ok: [okd.example.com] => {
+    "openshift_image_tag": "v3.11"
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:55
+Wednesday 18 December 2019  22:20:47 -0300 (0:00:00.216)       0:01:14.257 **** 
+ok: [okd.example.com] => {
+    "openshift_pkg_version": "-3.11*"
+}
+
+TASK [openshift_version : debug] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_version/tasks/first_master.yml:57
+Wednesday 18 December 2019  22:20:47 -0300 (0:00:00.234)       0:01:14.492 **** 
+ok: [okd.example.com] => {
+    "openshift_version": "3.11"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Set openshift_version for etcd, node, and master hosts] ************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Verify Requirements] ***********************************************************************************************************************************************
+META: ran handlers
+
+TASK [Run variable sanity checks] ****************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:14
+Wednesday 18 December 2019  22:20:47 -0300 (0:00:00.314)       0:01:14.806 **** 
+ok: [okd.example.com] => {
+    "changed": false, 
+    "msg": "Sanity Checks passed"
+}
+
+TASK [Validate openshift_node_groups and openshift_node_group_name] ******************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:18
+Wednesday 18 December 2019  22:20:48 -0300 (0:00:00.469)       0:01:15.275 **** 
+ok: [okd.example.com] => {
+    "changed": false, 
+    "msg": "Node group checks passed"
+}
+
+TASK [Validate openshift_master_ca_certificate when defined] *************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:20
+Wednesday 18 December 2019  22:20:48 -0300 (0:00:00.380)       0:01:15.656 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Fetch ca.crt from cluster if exists] *******************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:34
+Wednesday 18 December 2019  22:20:48 -0300 (0:00:00.184)       0:01:15.840 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/net_tools/basics/slurp.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "failed_when_result": false, 
+    "invocation": {
+        "module_args": {
+            "src": "/etc/origin/master/ca.crt"
+        }
+    }, 
+    "msg": "file not found: /etc/origin/master/ca.crt"
+}
+
+TASK [Validate ca.crt from cluster if exists] ****************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:40
+Wednesday 18 December 2019  22:20:50 -0300 (0:00:01.825)       0:01:17.666 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Verify Node Prerequisites] *****************************************************************************************************************************************
+META: ran handlers
+
+TASK [Check for NetworkManager service] **********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:66
+Wednesday 18 December 2019  22:20:50 -0300 (0:00:00.216)       0:01:17.883 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "cmd": [
+        "systemctl", 
+        "show", 
+        "NetworkManager"
+    ], 
+    "delta": "0:00:00.066235", 
+    "end": "2019-12-18 22:20:51.368522", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "systemctl show NetworkManager", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:20:51.302287", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "Type=dbus\nRestart=on-failure\nNotifyAccess=none\nRestartUSec=100ms\nTimeoutStartUSec=1min 30s\nTimeoutStopUSec=1min 30s\nWatchdogUSec=0\nWatchdogTimestamp=Qua 2019-12-18 22:06:31 -03\nWatchdogTimestampMonotonic=22005362\nStartLimitInterval=10000000\nStartLimitBurst=5\nStartLimitAction=none\nFailureAction=none\nPermissionsStartOnly=no\nRootDirectoryStartOnly=no\nRemainAfterExit=no\nGuessMainPID=yes\nMainPID=889\nControlPID=0\nBusName=org.freedesktop.NetworkManager\nFileDescriptorStoreMax=0\nStatusErrno=0\nResult=success\nExecMainStartTimestamp=Qua 2019-12-18 22:06:30 -03\nExecMainStartTimestampMonotonic=20848127\nExecMainExitTimestampMonotonic=0\nExecMainPID=889\nExecMainCode=0\nExecMainStatus=0\nExecStart={ path=/usr/sbin/NetworkManager ; argv[]=/usr/sbin/NetworkManager --no-daemon ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\nExecReload={ path=/usr/bin/dbus-send ; argv[]=/usr/bin/dbus-send --print-reply --system --type=method_call --dest=org.freedesktop.NetworkManager /org/freedesktop/NetworkManager org.freedesktop.NetworkManager.Reload uint32:0 ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\nSlice=system.slice\nControlGroup=/system.slice/NetworkManager.service\nMemoryCurrent=18446744073709551615\nTasksCurrent=18446744073709551615\nDelegate=no\nCPUAccounting=no\nCPUShares=18446744073709551615\nStartupCPUShares=18446744073709551615\nCPUQuotaPerSecUSec=infinity\nBlockIOAccounting=no\nBlockIOWeight=18446744073709551615\nStartupBlockIOWeight=18446744073709551615\nMemoryAccounting=no\nMemoryLimit=18446744073709551615\nDevicePolicy=auto\nTasksAccounting=no\nTasksMax=18446744073709551615\nUMask=0022\nLimitCPU=18446744073709551615\nLimitFSIZE=18446744073709551615\nLimitDATA=18446744073709551615\nLimitSTACK=18446744073709551615\nLimitCORE=18446744073709551615\nLimitRSS=18446744073709551615\nLimitNOFILE=4096\nLimitAS=18446744073709551615\nLimitNPROC=25145\nLimitMEMLOCK=65536\nLimitLOCKS=18446744073709551615\nLimitSIGPENDING=25145\nLimitMSGQUEUE=819200\nLimitNICE=0\nLimitRTPRIO=0\nLimitRTTIME=18446744073709551615\nOOMScoreAdjust=0\nNice=0\nIOScheduling=0\nCPUSchedulingPolicy=0\nCPUSchedulingPriority=0\nTimerSlackNSec=50000\nCPUSchedulingResetOnFork=no\nNonBlocking=no\nStandardInput=null\nStandardOutput=journal\nStandardError=inherit\nTTYReset=no\nTTYVHangup=no\nTTYVTDisallocate=no\nSyslogPriority=30\nSyslogLevelPrefix=yes\nSecureBits=0\nCapabilityBoundingSet=539309282\nAmbientCapabilities=0\nMountFlags=0\nPrivateTmp=no\nPrivateNetwork=no\nPrivateDevices=no\nProtectHome=read-only\nProtectSystem=yes\nSameProcessGroup=no\nIgnoreSIGPIPE=yes\nNoNewPrivileges=no\nSystemCallErrorNumber=0\nRuntimeDirectoryMode=0755\nKillMode=process\nKillSignal=15\nSendSIGKILL=yes\nSendSIGHUP=no\nId=NetworkManager.service\nNames=NetworkManager.service\nRequires=system.slice basic.target\nWants=network.target\nRequiredBy=NetworkManager-wait-online.service\nWantedBy=multi-user.target\nConflicts=shutdown.target\nBefore=shutdown.target network.service network.target multi-user.target NetworkManager-wait-online.service\nAfter=network-pre.target basic.target dbus.service systemd-journald.socket system.slice\nDocumentation=man:NetworkManager(8)\nDescription=Network Manager\nLoadState=loaded\nActiveState=active\nSubState=running\nFragmentPath=/usr/lib/systemd/system/NetworkManager.service\nUnitFileState=enabled\nUnitFilePreset=enabled\nInactiveExitTimestamp=Qua 2019-12-18 22:06:30 -03\nInactiveExitTimestampMonotonic=20856018\nActiveEnterTimestamp=Qua 2019-12-18 22:06:31 -03\nActiveEnterTimestampMonotonic=22005443\nActiveExitTimestampMonotonic=0\nInactiveEnterTimestampMonotonic=0\nCanStart=yes\nCanStop=yes\nCanReload=yes\nCanIsolate=no\nStopWhenUnneeded=no\nRefuseManualStart=no\nRefuseManualStop=no\nAllowIsolate=no\nDefaultDependencies=yes\nOnFailureJobMode=replace\nIgnoreOnIsolate=no\nIgnoreOnSnapshot=no\nNeedDaemonReload=no\nJobTimeoutUSec=0\nJobTimeoutAction=none\nConditionResult=yes\nAssertResult=yes\nConditionTimestamp=Qua 2019-12-18 22:06:30 -03\nConditionTimestampMonotonic=20844129\nAssertTimestamp=Qua 2019-12-18 22:06:30 -03\nAssertTimestampMonotonic=20844129\nTransient=no", 
+    "stdout_lines": [
+        "Type=dbus", 
+        "Restart=on-failure", 
+        "NotifyAccess=none", 
+        "RestartUSec=100ms", 
+        "TimeoutStartUSec=1min 30s", 
+        "TimeoutStopUSec=1min 30s", 
+        "WatchdogUSec=0", 
+        "WatchdogTimestamp=Qua 2019-12-18 22:06:31 -03", 
+        "WatchdogTimestampMonotonic=22005362", 
+        "StartLimitInterval=10000000", 
+        "StartLimitBurst=5", 
+        "StartLimitAction=none", 
+        "FailureAction=none", 
+        "PermissionsStartOnly=no", 
+        "RootDirectoryStartOnly=no", 
+        "RemainAfterExit=no", 
+        "GuessMainPID=yes", 
+        "MainPID=889", 
+        "ControlPID=0", 
+        "BusName=org.freedesktop.NetworkManager", 
+        "FileDescriptorStoreMax=0", 
+        "StatusErrno=0", 
+        "Result=success", 
+        "ExecMainStartTimestamp=Qua 2019-12-18 22:06:30 -03", 
+        "ExecMainStartTimestampMonotonic=20848127", 
+        "ExecMainExitTimestampMonotonic=0", 
+        "ExecMainPID=889", 
+        "ExecMainCode=0", 
+        "ExecMainStatus=0", 
+        "ExecStart={ path=/usr/sbin/NetworkManager ; argv[]=/usr/sbin/NetworkManager --no-daemon ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecReload={ path=/usr/bin/dbus-send ; argv[]=/usr/bin/dbus-send --print-reply --system --type=method_call --dest=org.freedesktop.NetworkManager /org/freedesktop/NetworkManager org.freedesktop.NetworkManager.Reload uint32:0 ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "Slice=system.slice", 
+        "ControlGroup=/system.slice/NetworkManager.service", 
+        "MemoryCurrent=18446744073709551615", 
+        "TasksCurrent=18446744073709551615", 
+        "Delegate=no", 
+        "CPUAccounting=no", 
+        "CPUShares=18446744073709551615", 
+        "StartupCPUShares=18446744073709551615", 
+        "CPUQuotaPerSecUSec=infinity", 
+        "BlockIOAccounting=no", 
+        "BlockIOWeight=18446744073709551615", 
+        "StartupBlockIOWeight=18446744073709551615", 
+        "MemoryAccounting=no", 
+        "MemoryLimit=18446744073709551615", 
+        "DevicePolicy=auto", 
+        "TasksAccounting=no", 
+        "TasksMax=18446744073709551615", 
+        "UMask=0022", 
+        "LimitCPU=18446744073709551615", 
+        "LimitFSIZE=18446744073709551615", 
+        "LimitDATA=18446744073709551615", 
+        "LimitSTACK=18446744073709551615", 
+        "LimitCORE=18446744073709551615", 
+        "LimitRSS=18446744073709551615", 
+        "LimitNOFILE=4096", 
+        "LimitAS=18446744073709551615", 
+        "LimitNPROC=25145", 
+        "LimitMEMLOCK=65536", 
+        "LimitLOCKS=18446744073709551615", 
+        "LimitSIGPENDING=25145", 
+        "LimitMSGQUEUE=819200", 
+        "LimitNICE=0", 
+        "LimitRTPRIO=0", 
+        "LimitRTTIME=18446744073709551615", 
+        "OOMScoreAdjust=0", 
+        "Nice=0", 
+        "IOScheduling=0", 
+        "CPUSchedulingPolicy=0", 
+        "CPUSchedulingPriority=0", 
+        "TimerSlackNSec=50000", 
+        "CPUSchedulingResetOnFork=no", 
+        "NonBlocking=no", 
+        "StandardInput=null", 
+        "StandardOutput=journal", 
+        "StandardError=inherit", 
+        "TTYReset=no", 
+        "TTYVHangup=no", 
+        "TTYVTDisallocate=no", 
+        "SyslogPriority=30", 
+        "SyslogLevelPrefix=yes", 
+        "SecureBits=0", 
+        "CapabilityBoundingSet=539309282", 
+        "AmbientCapabilities=0", 
+        "MountFlags=0", 
+        "PrivateTmp=no", 
+        "PrivateNetwork=no", 
+        "PrivateDevices=no", 
+        "ProtectHome=read-only", 
+        "ProtectSystem=yes", 
+        "SameProcessGroup=no", 
+        "IgnoreSIGPIPE=yes", 
+        "NoNewPrivileges=no", 
+        "SystemCallErrorNumber=0", 
+        "RuntimeDirectoryMode=0755", 
+        "KillMode=process", 
+        "KillSignal=15", 
+        "SendSIGKILL=yes", 
+        "SendSIGHUP=no", 
+        "Id=NetworkManager.service", 
+        "Names=NetworkManager.service", 
+        "Requires=system.slice basic.target", 
+        "Wants=network.target", 
+        "RequiredBy=NetworkManager-wait-online.service", 
+        "WantedBy=multi-user.target", 
+        "Conflicts=shutdown.target", 
+        "Before=shutdown.target network.service network.target multi-user.target NetworkManager-wait-online.service", 
+        "After=network-pre.target basic.target dbus.service systemd-journald.socket system.slice", 
+        "Documentation=man:NetworkManager(8)", 
+        "Description=Network Manager", 
+        "LoadState=loaded", 
+        "ActiveState=active", 
+        "SubState=running", 
+        "FragmentPath=/usr/lib/systemd/system/NetworkManager.service", 
+        "UnitFileState=enabled", 
+        "UnitFilePreset=enabled", 
+        "InactiveExitTimestamp=Qua 2019-12-18 22:06:30 -03", 
+        "InactiveExitTimestampMonotonic=20856018", 
+        "ActiveEnterTimestamp=Qua 2019-12-18 22:06:31 -03", 
+        "ActiveEnterTimestampMonotonic=22005443", 
+        "ActiveExitTimestampMonotonic=0", 
+        "InactiveEnterTimestampMonotonic=0", 
+        "CanStart=yes", 
+        "CanStop=yes", 
+        "CanReload=yes", 
+        "CanIsolate=no", 
+        "StopWhenUnneeded=no", 
+        "RefuseManualStart=no", 
+        "RefuseManualStop=no", 
+        "AllowIsolate=no", 
+        "DefaultDependencies=yes", 
+        "OnFailureJobMode=replace", 
+        "IgnoreOnIsolate=no", 
+        "IgnoreOnSnapshot=no", 
+        "NeedDaemonReload=no", 
+        "JobTimeoutUSec=0", 
+        "JobTimeoutAction=none", 
+        "ConditionResult=yes", 
+        "AssertResult=yes", 
+        "ConditionTimestamp=Qua 2019-12-18 22:06:30 -03", 
+        "ConditionTimestampMonotonic=20844129", 
+        "AssertTimestamp=Qua 2019-12-18 22:06:30 -03", 
+        "AssertTimestampMonotonic=20844129", 
+        "Transient=no"
+    ]
+}
+
+TASK [Verify NetworkManager is active] ***********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:73
+Wednesday 18 December 2019  22:20:51 -0300 (0:00:00.922)       0:01:18.805 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Verify SELinux is enabled] *****************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/sanity_checks.yml:80
+Wednesday 18 December 2019  22:20:51 -0300 (0:00:00.140)       0:01:18.946 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Validate Aci deployment variables] *********************************************************************************************************************************
+META: ran handlers
+
+TASK [Verify Aci deployment file variable is defined] ********************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/validate_aci_params.yml:6
+Wednesday 18 December 2019  22:20:52 -0300 (0:00:00.177)       0:01:19.124 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Verify Aci deployment file exists] *********************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/validate_aci_params.yml:14
+Wednesday 18 December 2019  22:20:52 -0300 (0:00:00.127)       0:01:19.252 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [Fail if file does not exist] ***************************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/validate_aci_params.yml:19
+Wednesday 18 December 2019  22:20:52 -0300 (0:00:00.148)       0:01:19.400 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Initialization Checkpoint End] *************************************************************************************************************************************
+META: ran handlers
+
+TASK [Set install initialization 'Complete'] *****************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/main.yml:47
+Wednesday 18 December 2019  22:20:52 -0300 (0:00:00.180)       0:01:19.581 **** 
+ok: [okd.example.com] => {
+    "ansible_stats": {
+        "aggregate": true, 
+        "data": {
+            "installer_phase_initialize": {
+                "end": "20191218222052Z", 
+                "status": "Complete"
+            }
+        }, 
+        "per_host": false
+    }, 
+    "changed": false
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Validate node hostnames] *******************************************************************************************************************************************
+META: ran handlers
+
+TASK [Query DNS for IP address of 192.168.0.106] *************************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/validate_hostnames.yml:6
+Wednesday 18 December 2019  22:20:52 -0300 (0:00:00.218)       0:01:19.800 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "cmd": "getent ahostsv4 192.168.0.106 | head -n 1 | awk '{ print $1 }'", 
+    "delta": "0:00:00.360565", 
+    "end": "2019-12-18 22:20:53.573561", 
+    "failed_when_result": false, 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "getent ahostsv4 192.168.0.106 | head -n 1 | awk '{ print $1 }'", 
+            "_uses_shell": true, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:20:53.212996", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "192.168.0.106", 
+    "stdout_lines": [
+        "192.168.0.106"
+    ]
+}
+
+TASK [Validate openshift_kubelet_name_override when defined] *************************************************************************************************************
+task path: /root/openshift-ansible/playbooks/init/validate_hostnames.yml:13
+Wednesday 18 December 2019  22:20:53 -0300 (0:00:00.982)       0:01:20.783 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [Configure os_firewall] *********************************************************************************************************************************************
+META: ran handlers
+
+TASK [os_firewall : Fail - Firewalld is not supported on Atomic Host] ****************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:2
+Wednesday 18 December 2019  22:20:53 -0300 (0:00:00.238)       0:01:21.021 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Install firewalld packages] **************************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:9
+Wednesday 18 December 2019  22:20:54 -0300 (0:00:00.141)       0:01:21.163 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Ensure iptables services are not enabled] ************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:17
+Wednesday 18 December 2019  22:20:54 -0300 (0:00:00.204)       0:01:21.367 **** 
+skipping: [okd.example.com] => (item=iptables)  => {
+    "changed": false, 
+    "item": "iptables", 
+    "skip_reason": "Conditional result was False"
+}
+skipping: [okd.example.com] => (item=ip6tables)  => {
+    "changed": false, 
+    "item": "ip6tables", 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Wait 10 seconds after disabling iptables] ************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:31
+Wednesday 18 December 2019  22:20:54 -0300 (0:00:00.318)       0:01:21.686 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Start and enable firewalld service] ******************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:36
+Wednesday 18 December 2019  22:20:54 -0300 (0:00:00.168)       0:01:21.854 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : need to pause here, otherwise the firewalld service starting can sometimes cause ssh to fail] ********************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:45
+Wednesday 18 December 2019  22:20:55 -0300 (0:00:00.235)       0:01:22.089 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Restart polkitd] *************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:50
+Wednesday 18 December 2019  22:20:55 -0300 (0:00:00.170)       0:01:22.260 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Wait for polkit action to have been created] *********************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/firewalld.yml:57
+Wednesday 18 December 2019  22:20:55 -0300 (0:00:00.183)       0:01:22.444 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [os_firewall : Ensure firewalld service is not enabled] *************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:3
+Wednesday 18 December 2019  22:20:55 -0300 (0:00:00.153)       0:01:22.597 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "enabled": false, 
+    "failed_when_result": false, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": false, 
+            "enabled": false, 
+            "masked": true, 
+            "name": "firewalld", 
+            "no_block": false, 
+            "state": "stopped", 
+            "user": false
+        }
+    }, 
+    "name": "firewalld", 
+    "state": "stopped", 
+    "status": {
+        "ActiveEnterTimestamp": "Qua 2019-12-18 22:06:30 -03", 
+        "ActiveEnterTimestampMonotonic": "20838300", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "active", 
+        "After": "basic.target system.slice dbus.service polkit.service", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "yes", 
+        "AssertTimestamp": "Qua 2019-12-18 22:06:27 -03", 
+        "AssertTimestampMonotonic": "17653866", 
+        "Before": "shutdown.target network-pre.target multi-user.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "BusName": "org.fedoraproject.FirewallD1", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "yes", 
+        "ConditionTimestamp": "Qua 2019-12-18 22:06:27 -03", 
+        "ConditionTimestampMonotonic": "17653865", 
+        "Conflicts": "ip6tables.service shutdown.target ebtables.service iptables.service ipset.service", 
+        "ControlGroup": "/system.slice/firewalld.service", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "firewalld - dynamic firewall daemon", 
+        "DevicePolicy": "auto", 
+        "Documentation": "man:firewalld(1)", 
+        "EnvironmentFile": "/etc/sysconfig/firewalld (ignore_errors=yes)", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "887", 
+        "ExecMainStartTimestamp": "Qua 2019-12-18 22:06:27 -03", 
+        "ExecMainStartTimestampMonotonic": "17673918", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/bin/kill ; argv[]=/bin/kill -HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/sbin/firewalld ; argv[]=/usr/sbin/firewalld --nofork --nopid $FIREWALLD_ARGS ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/usr/lib/systemd/system/firewalld.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "firewalld.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreOnSnapshot": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestamp": "Qua 2019-12-18 22:06:27 -03", 
+        "InactiveExitTimestampMonotonic": "17674875", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "0", 
+        "KillMode": "mixed", 
+        "KillSignal": "15", 
+        "LimitAS": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitNICE": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNPROC": "25145", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitSIGPENDING": "25145", 
+        "LimitSTACK": "18446744073709551615", 
+        "LoadState": "loaded", 
+        "MainPID": "887", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "Names": "firewalld.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "no", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "no", 
+        "Requires": "system.slice basic.target", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "null", 
+        "StandardInput": "null", 
+        "StandardOutput": "null", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "running", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "1min 30s", 
+        "TimeoutStopUSec": "1min 30s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "dbus", 
+        "UMask": "0022", 
+        "UnitFilePreset": "enabled", 
+        "UnitFileState": "enabled", 
+        "WantedBy": "multi-user.target", 
+        "Wants": "network-pre.target", 
+        "WatchdogTimestamp": "Qua 2019-12-18 22:06:30 -03", 
+        "WatchdogTimestampMonotonic": "20837333", 
+        "WatchdogUSec": "0"
+    }
+}
+
+TASK [os_firewall : Wait 10 seconds after disabling firewalld] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:14
+Wednesday 18 December 2019  22:20:57 -0300 (0:00:02.182)       0:01:24.780 **** 
+Pausing for 10 seconds
+(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+ok: [okd.example.com] => {
+    "changed": false, 
+    "delta": 10, 
+    "echo": true, 
+    "rc": 0, 
+    "start": "2019-12-18 22:20:57.870762", 
+    "stderr": "", 
+    "stdout": "Paused for 10.0 seconds", 
+    "stop": "2019-12-18 22:21:07.871597", 
+    "user_input": ""
+}
+
+TASK [os_firewall : Install iptables packages] ***************************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:19
+Wednesday 18 December 2019  22:21:08 -0300 (0:00:10.299)       0:01:35.079 **** 
+Running yum
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/packaging/os/yum.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false, 
+            "conf_file": null, 
+            "disable_gpg_check": false, 
+            "disable_plugin": [], 
+            "disablerepo": null, 
+            "enable_plugin": [], 
+            "enablerepo": null, 
+            "exclude": null, 
+            "install_repoquery": true, 
+            "installroot": "/", 
+            "list": null, 
+            "name": [
+                "iptables", 
+                "iptables-services"
+            ], 
+            "security": false, 
+            "skip_broken": false, 
+            "state": "present", 
+            "update_cache": false, 
+            "update_only": false, 
+            "validate_certs": true
+        }
+    }, 
+    "msg": "", 
+    "rc": 0, 
+    "results": [
+        "iptables-1.4.21-33.el7.x86_64 providing iptables is already installed", 
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: centos.xpg.com.br\n * extras: mirror.ufscar.br\n * updates: mirror.ufscar.br\nResolving Dependencies\n--> Running transaction check\n---> Package iptables-services.x86_64 0:1.4.21-33.el7 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                  Arch          Version               Repository   Size\n================================================================================\nInstalling:\n iptables-services        x86_64        1.4.21-33.el7         base         52 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 52 k\nInstalled size: 22 k\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : iptables-services-1.4.21-33.el7.x86_64                       1/1 \n  Verifying  : iptables-services-1.4.21-33.el7.x86_64                       1/1 \n\nInstalled:\n  iptables-services.x86_64 0:1.4.21-33.el7                                      \n\nComplete!\n"
+    ]
+}
+
+TASK [os_firewall : Start and enable iptables service] *******************************************************************************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:31
+Wednesday 18 December 2019  22:21:16 -0300 (0:00:08.591)       0:01:43.671 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com -> okd.example.com] => (item=okd.example.com) => {
+    "changed": true, 
+    "enabled": true, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": true, 
+            "enabled": true, 
+            "masked": false, 
+            "name": "iptables", 
+            "no_block": false, 
+            "state": "started", 
+            "user": false
+        }
+    }, 
+    "item": "okd.example.com", 
+    "name": "iptables", 
+    "state": "started", 
+    "status": {
+        "ActiveEnterTimestampMonotonic": "0", 
+        "ActiveExitTimestampMonotonic": "0", 
+        "ActiveState": "inactive", 
+        "After": "systemd-journald.socket system.slice syslog.target basic.target", 
+        "AllowIsolate": "no", 
+        "AmbientCapabilities": "0", 
+        "AssertResult": "no", 
+        "AssertTimestampMonotonic": "0", 
+        "Before": "network.service ip6tables.service shutdown.target", 
+        "BlockIOAccounting": "no", 
+        "BlockIOWeight": "18446744073709551615", 
+        "CPUAccounting": "no", 
+        "CPUQuotaPerSecUSec": "infinity", 
+        "CPUSchedulingPolicy": "0", 
+        "CPUSchedulingPriority": "0", 
+        "CPUSchedulingResetOnFork": "no", 
+        "CPUShares": "18446744073709551615", 
+        "CanIsolate": "no", 
+        "CanReload": "yes", 
+        "CanStart": "yes", 
+        "CanStop": "yes", 
+        "CapabilityBoundingSet": "18446744073709551615", 
+        "ConditionResult": "no", 
+        "ConditionTimestampMonotonic": "0", 
+        "Conflicts": "shutdown.target", 
+        "ControlPID": "0", 
+        "DefaultDependencies": "yes", 
+        "Delegate": "no", 
+        "Description": "IPv4 firewall with iptables", 
+        "DevicePolicy": "auto", 
+        "Environment": "BOOTUP=serial CONSOLETYPE=serial", 
+        "ExecMainCode": "0", 
+        "ExecMainExitTimestampMonotonic": "0", 
+        "ExecMainPID": "0", 
+        "ExecMainStartTimestampMonotonic": "0", 
+        "ExecMainStatus": "0", 
+        "ExecReload": "{ path=/usr/libexec/iptables/iptables.init ; argv[]=/usr/libexec/iptables/iptables.init reload ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStart": "{ path=/usr/libexec/iptables/iptables.init ; argv[]=/usr/libexec/iptables/iptables.init start ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "ExecStop": "{ path=/usr/libexec/iptables/iptables.init ; argv[]=/usr/libexec/iptables/iptables.init stop ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", 
+        "FailureAction": "none", 
+        "FileDescriptorStoreMax": "0", 
+        "FragmentPath": "/usr/lib/systemd/system/iptables.service", 
+        "GuessMainPID": "yes", 
+        "IOScheduling": "0", 
+        "Id": "iptables.service", 
+        "IgnoreOnIsolate": "no", 
+        "IgnoreOnSnapshot": "no", 
+        "IgnoreSIGPIPE": "yes", 
+        "InactiveEnterTimestampMonotonic": "0", 
+        "InactiveExitTimestampMonotonic": "0", 
+        "JobTimeoutAction": "none", 
+        "JobTimeoutUSec": "0", 
+        "KillMode": "control-group", 
+        "KillSignal": "15", 
+        "LimitAS": "18446744073709551615", 
+        "LimitCORE": "18446744073709551615", 
+        "LimitCPU": "18446744073709551615", 
+        "LimitDATA": "18446744073709551615", 
+        "LimitFSIZE": "18446744073709551615", 
+        "LimitLOCKS": "18446744073709551615", 
+        "LimitMEMLOCK": "65536", 
+        "LimitMSGQUEUE": "819200", 
+        "LimitNICE": "0", 
+        "LimitNOFILE": "4096", 
+        "LimitNPROC": "25145", 
+        "LimitRSS": "18446744073709551615", 
+        "LimitRTPRIO": "0", 
+        "LimitRTTIME": "18446744073709551615", 
+        "LimitSIGPENDING": "25145", 
+        "LimitSTACK": "18446744073709551615", 
+        "LoadState": "loaded", 
+        "MainPID": "0", 
+        "MemoryAccounting": "no", 
+        "MemoryCurrent": "18446744073709551615", 
+        "MemoryLimit": "18446744073709551615", 
+        "MountFlags": "0", 
+        "Names": "iptables.service", 
+        "NeedDaemonReload": "no", 
+        "Nice": "0", 
+        "NoNewPrivileges": "no", 
+        "NonBlocking": "no", 
+        "NotifyAccess": "none", 
+        "OOMScoreAdjust": "0", 
+        "OnFailureJobMode": "replace", 
+        "PermissionsStartOnly": "no", 
+        "PrivateDevices": "no", 
+        "PrivateNetwork": "no", 
+        "PrivateTmp": "no", 
+        "ProtectHome": "no", 
+        "ProtectSystem": "no", 
+        "RefuseManualStart": "no", 
+        "RefuseManualStop": "no", 
+        "RemainAfterExit": "yes", 
+        "Requires": "system.slice basic.target", 
+        "Restart": "no", 
+        "RestartUSec": "100ms", 
+        "Result": "success", 
+        "RootDirectoryStartOnly": "no", 
+        "RuntimeDirectoryMode": "0755", 
+        "SameProcessGroup": "no", 
+        "SecureBits": "0", 
+        "SendSIGHUP": "no", 
+        "SendSIGKILL": "yes", 
+        "Slice": "system.slice", 
+        "StandardError": "syslog", 
+        "StandardInput": "null", 
+        "StandardOutput": "syslog", 
+        "StartLimitAction": "none", 
+        "StartLimitBurst": "5", 
+        "StartLimitInterval": "10000000", 
+        "StartupBlockIOWeight": "18446744073709551615", 
+        "StartupCPUShares": "18446744073709551615", 
+        "StatusErrno": "0", 
+        "StopWhenUnneeded": "no", 
+        "SubState": "dead", 
+        "SyslogLevelPrefix": "yes", 
+        "SyslogPriority": "30", 
+        "SystemCallErrorNumber": "0", 
+        "TTYReset": "no", 
+        "TTYVHangup": "no", 
+        "TTYVTDisallocate": "no", 
+        "TasksAccounting": "no", 
+        "TasksCurrent": "18446744073709551615", 
+        "TasksMax": "18446744073709551615", 
+        "TimeoutStartUSec": "0", 
+        "TimeoutStopUSec": "1min 30s", 
+        "TimerSlackNSec": "50000", 
+        "Transient": "no", 
+        "Type": "oneshot", 
+        "UMask": "0022", 
+        "UnitFilePreset": "disabled", 
+        "UnitFileState": "disabled", 
+        "WatchdogTimestampMonotonic": "0", 
+        "WatchdogUSec": "0"
+    }
+}
+
+TASK [os_firewall : need to pause here, otherwise the iptables service starting can sometimes cause ssh to fail] *********************************************************
+task path: /root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:43
+Wednesday 18 December 2019  22:21:18 -0300 (0:00:02.102)       0:01:45.774 **** 
+Pausing for 10 seconds
+(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+ok: [okd.example.com] => {
+    "changed": false, 
+    "delta": 10, 
+    "echo": true, 
+    "rc": 0, 
+    "start": "2019-12-18 22:21:18.793416", 
+    "stderr": "", 
+    "stdout": "Paused for 10.01 seconds", 
+    "stop": "2019-12-18 22:21:28.799167", 
+    "user_input": ""
+}
+META: ran handlers
+META: ran handlers
+
+PLAY [oo_nodes_to_config] ************************************************************************************************************************************************
+META: ran handlers
+
+TASK [container_runtime : Setup the docker-storage for overlay] **********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/docker_storage_setup_overlay.yml:2
+Wednesday 18 December 2019  22:21:28 -0300 (0:00:10.280)       0:01:56.054 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Create file system on extra volume device] *****************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/extra_storage_setup.yml:2
+Wednesday 18 December 2019  22:21:29 -0300 (0:00:00.230)       0:01:56.284 **** 
+
+TASK [container_runtime : Create mount entry for extra volume] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/extra_storage_setup.yml:11
+Wednesday 18 December 2019  22:21:29 -0300 (0:00:00.150)       0:01:56.434 **** 
+META: ran handlers
+META: ran handlers
+
+PLAY [oo_nodes_to_config] ************************************************************************************************************************************************
+META: ran handlers
+
+TASK [openshift_excluder : Install docker excluder - yum] ****************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:9
+Wednesday 18 December 2019  22:21:29 -0300 (0:00:00.258)       0:01:56.693 **** 
+Running yum
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/packaging/os/yum.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false, 
+            "conf_file": null, 
+            "disable_gpg_check": false, 
+            "disable_plugin": [], 
+            "disablerepo": null, 
+            "enable_plugin": [], 
+            "enablerepo": null, 
+            "exclude": null, 
+            "install_repoquery": true, 
+            "installroot": "/", 
+            "list": null, 
+            "name": [
+                "origin-docker-excluder-3.11**"
+            ], 
+            "security": false, 
+            "skip_broken": false, 
+            "state": "present", 
+            "update_cache": false, 
+            "update_only": false, 
+            "validate_certs": true
+        }
+    }, 
+    "msg": "warning: /var/cache/yum/x86_64/7/centos-openshift-origin311/packages/origin-docker-excluder-3.11.0-1.el7.git.0.62803d0.noarch.rpm: Header V4 RSA/SHA1 Signature, key ID 2f297ecc: NOKEY\nImporting GPG key 0x2F297ECC:\n Userid     : \"CentOS PaaS SIG (https://wiki.centos.org/SpecialInterestGroup/PaaS) <security@centos.org>\"\n Fingerprint: c5e8 ab44 6fa7 893d 7490 51f1 c34c 5bd4 2f29 7ecc\n From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS\n", 
+    "rc": 0, 
+    "results": [
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: centos.xpg.com.br\n * extras: mirror.ufscar.br\n * updates: mirror.ufscar.br\nResolving Dependencies\n--> Running transaction check\n---> Package origin-docker-excluder.noarch 0:3.11.0-1.el7.git.0.62803d0 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package     Arch   Version                    Repository                  Size\n================================================================================\nInstalling:\n origin-docker-excluder\n             noarch 3.11.0-1.el7.git.0.62803d0 centos-openshift-origin311 4.4 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 4.4 k\nInstalled size: 2.4 k\nDownloading packages:\nPublic key for origin-docker-excluder-3.11.0-1.el7.git.0.62803d0.noarch.rpm is not installed\nRetrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : origin-docker-excluder-3.11.0-1.el7.git.0.62803d0.noarch     1/1 \nAdding exclude= to /etc/yum.conf\n  Verifying  : origin-docker-excluder-3.11.0-1.el7.git.0.62803d0.noarch     1/1 \n\nInstalled:\n  origin-docker-excluder.noarch 0:3.11.0-1.el7.git.0.62803d0                    \n\nComplete!\n"
+    ]
+}
+
+TASK [openshift_excluder : Install docker excluder - dnf] ****************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:24
+Wednesday 18 December 2019  22:21:37 -0300 (0:00:08.369)       0:02:05.063 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_excluder : Install openshift excluder - yum] *************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:34
+Wednesday 18 December 2019  22:21:38 -0300 (0:00:00.219)       0:02:05.283 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_excluder : Install openshift excluder - dnf] *************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:48
+Wednesday 18 December 2019  22:21:38 -0300 (0:00:00.211)       0:02:05.494 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [openshift_excluder : set_fact] *************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:58
+Wednesday 18 December 2019  22:21:38 -0300 (0:00:00.525)       0:02:06.020 **** 
+ok: [okd.example.com] => {
+    "ansible_facts": {
+        "r_openshift_excluder_install_ran": true
+    }, 
+    "changed": false
+}
+
+TASK [openshift_excluder : Check for docker-excluder] ********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/exclude.yml:3
+Wednesday 18 December 2019  22:21:39 -0300 (0:00:00.340)       0:02:06.360 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": false, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/sbin/origin-docker-excluder"
+        }
+    }, 
+    "stat": {
+        "atime": 1576718497.1248486, 
+        "block_size": 4096, 
+        "blocks": 8, 
+        "ctime": 1576718497.023847, 
+        "dev": 64768, 
+        "device_type": 0, 
+        "executable": true, 
+        "exists": true, 
+        "gid": 0, 
+        "gr_name": "root", 
+        "inode": 854032, 
+        "isblk": false, 
+        "ischr": false, 
+        "isdir": false, 
+        "isfifo": false, 
+        "isgid": false, 
+        "islnk": false, 
+        "isreg": true, 
+        "issock": false, 
+        "isuid": false, 
+        "mode": "0744", 
+        "mtime": 1539596688.0, 
+        "nlink": 1, 
+        "path": "/sbin/origin-docker-excluder", 
+        "pw_name": "root", 
+        "readable": true, 
+        "rgrp": true, 
+        "roth": true, 
+        "rusr": true, 
+        "size": 2471, 
+        "uid": 0, 
+        "wgrp": false, 
+        "woth": false, 
+        "writeable": true, 
+        "wusr": true, 
+        "xgrp": false, 
+        "xoth": false, 
+        "xusr": true
+    }
+}
+
+TASK [openshift_excluder : Check for openshift excluder] *****************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/exclude.yml:11
+Wednesday 18 December 2019  22:21:40 -0300 (0:00:00.751)       0:02:07.111 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": false, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/sbin/origin-excluder"
+        }
+    }, 
+    "stat": {
+        "exists": false
+    }
+}
+
+TASK [openshift_excluder : Enable docker excluder] ***********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/exclude.yml:19
+Wednesday 18 December 2019  22:21:40 -0300 (0:00:00.633)       0:02:07.745 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "cmd": [
+        "/sbin/origin-docker-excluder", 
+        "exclude"
+    ], 
+    "delta": "0:00:00.106916", 
+    "end": "2019-12-18 22:21:41.277315", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "/sbin/origin-docker-excluder exclude", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:21:41.170399", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "", 
+    "stdout_lines": []
+}
+
+TASK [openshift_excluder : Enable openshift excluder] ********************************************************************************************************************
+task path: /root/openshift-ansible/roles/openshift_excluder/tasks/exclude.yml:25
+Wednesday 18 December 2019  22:21:41 -0300 (0:00:00.821)       0:02:08.567 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Getting current systemd-udevd exec command] ****************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/udev_workaround.yml:3
+Wednesday 18 December 2019  22:21:41 -0300 (0:00:00.214)       0:02:08.781 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Assure systemd-udevd.service.d directory exists] ***********************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/udev_workaround.yml:8
+Wednesday 18 December 2019  22:21:41 -0300 (0:00:00.229)       0:02:09.011 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Create systemd-udevd override file] ************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/udev_workaround.yml:13
+Wednesday 18 December 2019  22:21:42 -0300 (0:00:00.324)       0:02:09.335 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Add enterprise registry, if necessary] *********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/pre.yml:5
+Wednesday 18 December 2019  22:21:42 -0300 (0:00:00.277)       0:02:09.613 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Add http_proxy to /etc/atomic.conf] ************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/atomic_proxy.yml:7
+Wednesday 18 December 2019  22:21:42 -0300 (0:00:00.204)       0:02:09.818 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Add https_proxy to /etc/atomic.conf] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/atomic_proxy.yml:16
+Wednesday 18 December 2019  22:21:42 -0300 (0:00:00.153)       0:02:09.972 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Add no_proxy to /etc/atomic.conf] **************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/common/atomic_proxy.yml:25
+Wednesday 18 December 2019  22:21:43 -0300 (0:00:00.168)       0:02:10.140 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Get current installed Docker version] **********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:9
+Wednesday 18 December 2019  22:21:43 -0300 (0:00:00.163)       0:02:10.303 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": false, 
+    "cmd": [
+        "repoquery", 
+        "--plugins", 
+        "--installed", 
+        "--qf", 
+        "%{version}", 
+        "docker"
+    ], 
+    "delta": "0:00:00.739247", 
+    "end": "2019-12-18 22:21:44.351568", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "repoquery --plugins --installed --qf '%{version}' docker", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:21:43.612321", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "", 
+    "stdout_lines": []
+}
+
+TASK [container_runtime : Error out if Docker pre-installed but too old] *************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/docker_sanity.yml:5
+Wednesday 18 December 2019  22:21:44 -0300 (0:00:01.291)       0:02:11.595 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Error out if requested Docker is too old] ******************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/docker_sanity.yml:14
+Wednesday 18 December 2019  22:21:44 -0300 (0:00:00.214)       0:02:11.810 **** 
+skipping: [okd.example.com] => {
+    "changed": false, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Install Docker] ********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:23
+Wednesday 18 December 2019  22:21:44 -0300 (0:00:00.155)       0:02:11.966 **** 
+Running yum
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/packaging/os/yum.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "attempts": 1, 
+    "changed": true, 
+    "invocation": {
+        "module_args": {
+            "allow_downgrade": false, 
+            "conf_file": null, 
+            "disable_gpg_check": false, 
+            "disable_plugin": [], 
+            "disablerepo": null, 
+            "enable_plugin": [], 
+            "enablerepo": null, 
+            "exclude": null, 
+            "install_repoquery": true, 
+            "installroot": "/", 
+            "list": null, 
+            "name": [
+                "docker", 
+                "atomic", 
+                "skopeo"
+            ], 
+            "security": false, 
+            "skip_broken": false, 
+            "state": "present", 
+            "update_cache": false, 
+            "update_only": false, 
+            "validate_certs": true
+        }
+    }, 
+    "msg": "", 
+    "rc": 0, 
+    "results": [
+        "Loaded plugins: fastestmirror\nLoading mirror speeds from cached hostfile\n * base: centos.xpg.com.br\n * extras: mirror.ufscar.br\n * updates: mirror.ufscar.br\nResolving Dependencies\n--> Running transaction check\n---> Package atomic.x86_64 1:1.22.1-29.gitb507039.el7 will be installed\n--> Processing Dependency: skopeo-containers >= 1:0.1.29-3 for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n--> Processing Dependency: runc for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n--> Processing Dependency: python-dateutil for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n--> Processing Dependency: ostree for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n--> Processing Dependency: gomtree for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n--> Processing Dependency: container-storage-setup for package: 1:atomic-1.22.1-29.gitb507039.el7.x86_64\n---> Package docker.x86_64 2:1.13.1-103.git7f2769b.el7.centos will be installed\n--> Processing Dependency: docker-common = 2:1.13.1-103.git7f2769b.el7.centos for package: 2:docker-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: docker-client = 2:1.13.1-103.git7f2769b.el7.centos for package: 2:docker-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: subscription-manager-rhsm-certificates for package: 2:docker-1.13.1-103.git7f2769b.el7.centos.x86_64\n---> Package skopeo.x86_64 1:0.1.37-3.el7.centos will be installed\n--> Running transaction check\n---> Package container-storage-setup.noarch 0:0.11.0-2.git5eaf76c.el7 will be installed\n---> Package containers-common.x86_64 1:0.1.37-3.el7.centos will be installed\n---> Package docker-client.x86_64 2:1.13.1-103.git7f2769b.el7.centos will be installed\n---> Package docker-common.x86_64 2:1.13.1-103.git7f2769b.el7.centos will be installed\n--> Processing Dependency: oci-umount >= 2:2.3.3-3 for package: 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: oci-systemd-hook >= 1:0.1.4-9 for package: 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: oci-register-machine >= 1:0-5.13 for package: 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: container-selinux >= 2:2.51-1 for package: 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64\n--> Processing Dependency: atomic-registries for package: 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64\n---> Package gomtree.x86_64 0:0.5.0-0.2.git16da0f8.el7 will be installed\n---> Package ostree.x86_64 0:2019.1-2.el7 will be installed\n--> Processing Dependency: libarchive.so.13()(64bit) for package: ostree-2019.1-2.el7.x86_64\n---> Package python-dateutil.noarch 0:1.5-7.el7 will be installed\n---> Package runc.x86_64 0:1.0.0-65.rc8.el7.centos will be installed\n--> Processing Dependency: criu for package: runc-1.0.0-65.rc8.el7.centos.x86_64\n---> Package subscription-manager-rhsm-certificates.x86_64 0:1.24.13-3.el7.centos will be installed\n--> Running transaction check\n---> Package atomic-registries.x86_64 1:1.22.1-29.gitb507039.el7 will be installed\n--> Processing Dependency: python-pytoml for package: 1:atomic-registries-1.22.1-29.gitb507039.el7.x86_64\n---> Package container-selinux.noarch 2:2.107-3.el7 will be installed\n--> Processing Dependency: policycoreutils-python for package: 2:container-selinux-2.107-3.el7.noarch\n---> Package criu.x86_64 0:3.12-2.el7 will be installed\n--> Processing Dependency: libprotobuf-c.so.1(LIBPROTOBUF_C_1.0.0)(64bit) for package: criu-3.12-2.el7.x86_64\n--> Processing Dependency: libprotobuf-c.so.1()(64bit) for package: criu-3.12-2.el7.x86_64\n--> Processing Dependency: libnet.so.1()(64bit) for package: criu-3.12-2.el7.x86_64\n---> Package libarchive.x86_64 0:3.1.2-12.el7 will be installed\n---> Package oci-register-machine.x86_64 1:0-6.git2b44233.el7 will be installed\n---> Package oci-systemd-hook.x86_64 1:0.2.0-1.git05e6923.el7_6 will be installed\n--> Processing Dependency: libyajl.so.2()(64bit) for package: 1:oci-systemd-hook-0.2.0-1.git05e6923.el7_6.x86_64\n---> Package oci-umount.x86_64 2:2.5-3.el7 will be installed\n--> Running transaction check\n---> Package libnet.x86_64 0:1.1.6-7.el7 will be installed\n---> Package policycoreutils-python.x86_64 0:2.5-33.el7 will be installed\n--> Processing Dependency: setools-libs >= 3.3.8-4 for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: audit-libs-python >= 2.1.3-4 for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: python-IPy for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libqpol.so.1(VERS_1.4)(64bit) for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libqpol.so.1(VERS_1.2)(64bit) for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libcgroup for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libapol.so.4(VERS_4.0)(64bit) for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: checkpolicy for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libqpol.so.1()(64bit) for package: policycoreutils-python-2.5-33.el7.x86_64\n--> Processing Dependency: libapol.so.4()(64bit) for package: policycoreutils-python-2.5-33.el7.x86_64\n---> Package protobuf-c.x86_64 0:1.0.2-3.el7 will be installed\n---> Package python-pytoml.noarch 0:0.1.14-1.git7dea353.el7 will be installed\n---> Package yajl.x86_64 0:2.0.4-4.el7 will be installed\n--> Running transaction check\n---> Package audit-libs-python.x86_64 0:2.8.5-4.el7 will be installed\n---> Package checkpolicy.x86_64 0:2.5-8.el7 will be installed\n---> Package libcgroup.x86_64 0:0.41-21.el7 will be installed\n---> Package python-IPy.noarch 0:0.75-6.el7 will be installed\n---> Package setools-libs.x86_64 0:3.3.8-4.el7 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package                Arch   Version                            Repository\n                                                                           Size\n================================================================================\nInstalling:\n atomic                 x86_64 1:1.22.1-29.gitb507039.el7         extras  916 k\n docker                 x86_64 2:1.13.1-103.git7f2769b.el7.centos extras   18 M\n skopeo                 x86_64 1:0.1.37-3.el7.centos              extras  4.1 M\nInstalling for dependencies:\n atomic-registries      x86_64 1:1.22.1-29.gitb507039.el7         extras   35 k\n audit-libs-python      x86_64 2.8.5-4.el7                        base     76 k\n checkpolicy            x86_64 2.5-8.el7                          base    295 k\n container-selinux      noarch 2:2.107-3.el7                      extras   39 k\n container-storage-setup\n                        noarch 0.11.0-2.git5eaf76c.el7            extras   35 k\n containers-common      x86_64 1:0.1.37-3.el7.centos              extras   21 k\n criu                   x86_64 3.12-2.el7                         base    453 k\n docker-client          x86_64 2:1.13.1-103.git7f2769b.el7.centos extras  3.9 M\n docker-common          x86_64 2:1.13.1-103.git7f2769b.el7.centos extras   97 k\n gomtree                x86_64 0.5.0-0.2.git16da0f8.el7           extras  667 k\n libarchive             x86_64 3.1.2-12.el7                       base    319 k\n libcgroup              x86_64 0.41-21.el7                        base     66 k\n libnet                 x86_64 1.1.6-7.el7                        base     59 k\n oci-register-machine   x86_64 1:0-6.git2b44233.el7               extras  1.1 M\n oci-systemd-hook       x86_64 1:0.2.0-1.git05e6923.el7_6         extras   34 k\n oci-umount             x86_64 2:2.5-3.el7                        extras   33 k\n ostree                 x86_64 2019.1-2.el7                       extras  513 k\n policycoreutils-python x86_64 2.5-33.el7                         base    457 k\n protobuf-c             x86_64 1.0.2-3.el7                        base     28 k\n python-IPy             noarch 0.75-6.el7                         base     32 k\n python-dateutil        noarch 1.5-7.el7                          base     85 k\n python-pytoml          noarch 0.1.14-1.git7dea353.el7            extras   18 k\n runc                   x86_64 1.0.0-65.rc8.el7.centos            extras  2.0 M\n setools-libs           x86_64 3.3.8-4.el7                        base    620 k\n subscription-manager-rhsm-certificates\n                        x86_64 1.24.13-3.el7.centos               updates 228 k\n yajl                   x86_64 2.0.4-4.el7                        base     39 k\n\nTransaction Summary\n================================================================================\nInstall  3 Packages (+26 Dependent packages)\n\nTotal download size: 34 M\nInstalled size: 118 M\nDownloading packages:\n--------------------------------------------------------------------------------\nTotal                                              1.7 MB/s |  34 MB  00:19     \nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : 1:containers-common-0.1.37-3.el7.centos.x86_64              1/29 \n  Installing : yajl-2.0.4-4.el7.x86_64                                     2/29 \n  Installing : container-storage-setup-0.11.0-2.git5eaf76c.el7.noarch      3/29 \n  Installing : 2:oci-umount-2.5-3.el7.x86_64                               4/29 \n  Installing : 1:oci-systemd-hook-0.2.0-1.git05e6923.el7_6.x86_64          5/29 \n  Installing : libcgroup-0.41-21.el7.x86_64                                6/29 \n  Installing : subscription-manager-rhsm-certificates-1.24.13-3.el7.cen    7/29 \n  Installing : gomtree-0.5.0-0.2.git16da0f8.el7.x86_64                     8/29 \n  Installing : setools-libs-3.3.8-4.el7.x86_64                             9/29 \n  Installing : libnet-1.1.6-7.el7.x86_64                                  10/29 \n  Installing : 1:oci-register-machine-0-6.git2b44233.el7.x86_64           11/29 \n  Installing : protobuf-c-1.0.2-3.el7.x86_64                              12/29 \n  Installing : criu-3.12-2.el7.x86_64                                     13/29 \n  Installing : python-pytoml-0.1.14-1.git7dea353.el7.noarch               14/29 \n  Installing : 1:atomic-registries-1.22.1-29.gitb507039.el7.x86_64        15/29 \n  Installing : python-dateutil-1.5-7.el7.noarch                           16/29 \n  Installing : python-IPy-0.75-6.el7.noarch                               17/29 \n  Installing : checkpolicy-2.5-8.el7.x86_64                               18/29 \n  Installing : libarchive-3.1.2-12.el7.x86_64                             19/29 \n  Installing : ostree-2019.1-2.el7.x86_64                                 20/29 \n  Installing : 1:skopeo-0.1.37-3.el7.centos.x86_64                        21/29 \n  Installing : audit-libs-python-2.8.5-4.el7.x86_64                       22/29 \n  Installing : policycoreutils-python-2.5-33.el7.x86_64                   23/29 \n  Installing : 2:container-selinux-2.107-3.el7.noarch                     24/29 \n  Installing : 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64    25/29 \n  Installing : 2:docker-client-1.13.1-103.git7f2769b.el7.centos.x86_64    26/29 \n  Installing : runc-1.0.0-65.rc8.el7.centos.x86_64                        27/29 \n  Installing : 1:atomic-1.22.1-29.gitb507039.el7.x86_64                   28/29 \n  Installing : 2:docker-1.13.1-103.git7f2769b.el7.centos.x86_64           29/29 \n  Verifying  : 2:docker-common-1.13.1-103.git7f2769b.el7.centos.x86_64     1/29 \n  Verifying  : 2:docker-1.13.1-103.git7f2769b.el7.centos.x86_64            2/29 \n  Verifying  : 2:container-selinux-2.107-3.el7.noarch                      3/29 \n  Verifying  : container-storage-setup-0.11.0-2.git5eaf76c.el7.noarch      4/29 \n  Verifying  : 1:atomic-registries-1.22.1-29.gitb507039.el7.x86_64         5/29 \n  Verifying  : audit-libs-python-2.8.5-4.el7.x86_64                        6/29 \n  Verifying  : libarchive-3.1.2-12.el7.x86_64                              7/29 \n  Verifying  : checkpolicy-2.5-8.el7.x86_64                                8/29 \n  Verifying  : python-IPy-0.75-6.el7.noarch                                9/29 \n  Verifying  : python-dateutil-1.5-7.el7.noarch                           10/29 \n  Verifying  : 1:containers-common-0.1.37-3.el7.centos.x86_64             11/29 \n  Verifying  : 2:oci-umount-2.5-3.el7.x86_64                              12/29 \n  Verifying  : ostree-2019.1-2.el7.x86_64                                 13/29 \n  Verifying  : python-pytoml-0.1.14-1.git7dea353.el7.noarch               14/29 \n  Verifying  : 1:atomic-1.22.1-29.gitb507039.el7.x86_64                   15/29 \n  Verifying  : 1:skopeo-0.1.37-3.el7.centos.x86_64                        16/29 \n  Verifying  : protobuf-c-1.0.2-3.el7.x86_64                              17/29 \n  Verifying  : policycoreutils-python-2.5-33.el7.x86_64                   18/29 \n  Verifying  : 1:oci-systemd-hook-0.2.0-1.git05e6923.el7_6.x86_64         19/29 \n  Verifying  : 2:docker-client-1.13.1-103.git7f2769b.el7.centos.x86_64    20/29 \n  Verifying  : criu-3.12-2.el7.x86_64                                     21/29 \n  Verifying  : 1:oci-register-machine-0-6.git2b44233.el7.x86_64           22/29 \n  Verifying  : yajl-2.0.4-4.el7.x86_64                                    23/29 \n  Verifying  : libnet-1.1.6-7.el7.x86_64                                  24/29 \n  Verifying  : runc-1.0.0-65.rc8.el7.centos.x86_64                        25/29 \n  Verifying  : setools-libs-3.3.8-4.el7.x86_64                            26/29 \n  Verifying  : gomtree-0.5.0-0.2.git16da0f8.el7.x86_64                    27/29 \n  Verifying  : subscription-manager-rhsm-certificates-1.24.13-3.el7.cen   28/29 \n  Verifying  : libcgroup-0.41-21.el7.x86_64                               29/29 \n\nInstalled:\n  atomic.x86_64 1:1.22.1-29.gitb507039.el7                                      \n  docker.x86_64 2:1.13.1-103.git7f2769b.el7.centos                              \n  skopeo.x86_64 1:0.1.37-3.el7.centos                                           \n\nDependency Installed:\n  atomic-registries.x86_64 1:1.22.1-29.gitb507039.el7                           \n  audit-libs-python.x86_64 0:2.8.5-4.el7                                        \n  checkpolicy.x86_64 0:2.5-8.el7                                                \n  container-selinux.noarch 2:2.107-3.el7                                        \n  container-storage-setup.noarch 0:0.11.0-2.git5eaf76c.el7                      \n  containers-common.x86_64 1:0.1.37-3.el7.centos                                \n  criu.x86_64 0:3.12-2.el7                                                      \n  docker-client.x86_64 2:1.13.1-103.git7f2769b.el7.centos                       \n  docker-common.x86_64 2:1.13.1-103.git7f2769b.el7.centos                       \n  gomtree.x86_64 0:0.5.0-0.2.git16da0f8.el7                                     \n  libarchive.x86_64 0:3.1.2-12.el7                                              \n  libcgroup.x86_64 0:0.41-21.el7                                                \n  libnet.x86_64 0:1.1.6-7.el7                                                   \n  oci-register-machine.x86_64 1:0-6.git2b44233.el7                              \n  oci-systemd-hook.x86_64 1:0.2.0-1.git05e6923.el7_6                            \n  oci-umount.x86_64 2:2.5-3.el7                                                 \n  ostree.x86_64 0:2019.1-2.el7                                                  \n  policycoreutils-python.x86_64 0:2.5-33.el7                                    \n  protobuf-c.x86_64 0:1.0.2-3.el7                                               \n  python-IPy.noarch 0:0.75-6.el7                                                \n  python-dateutil.noarch 0:1.5-7.el7                                            \n  python-pytoml.noarch 0:0.1.14-1.git7dea353.el7                                \n  runc.x86_64 0:1.0.0-65.rc8.el7.centos                                         \n  setools-libs.x86_64 0:3.3.8-4.el7                                             \n  subscription-manager-rhsm-certificates.x86_64 0:1.24.13-3.el7.centos          \n  yajl.x86_64 0:2.0.4-4.el7                                                     \n\nComplete!\n"
+    ]
+}
+
+TASK [container_runtime : Ensure docker.service.d directory exists] ******************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:39
+Wednesday 18 December 2019  22:23:18 -0300 (0:01:33.811)       0:03:45.777 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/file.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "changed": true, 
+    "diff": {
+        "after": {
+            "path": "/etc/systemd/system/docker.service.d", 
+            "state": "directory"
+        }, 
+        "before": {
+            "path": "/etc/systemd/system/docker.service.d", 
+            "state": "absent"
+        }
+    }, 
+    "gid": 0, 
+    "group": "root", 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": null, 
+            "content": null, 
+            "delimiter": null, 
+            "diff_peek": null, 
+            "directory_mode": null, 
+            "follow": true, 
+            "force": false, 
+            "group": null, 
+            "mode": null, 
+            "original_basename": null, 
+            "owner": null, 
+            "path": "/etc/systemd/system/docker.service.d", 
+            "recurse": false, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "state": "directory", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "mode": "0755", 
+    "owner": "root", 
+    "path": "/etc/systemd/system/docker.service.d", 
+    "secontext": "unconfined_u:object_r:systemd_unit_file_t:s0", 
+    "size": 6, 
+    "state": "directory", 
+    "uid": 0
+}
+
+TASK [container_runtime : Configure Docker service unit file] ************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:44
+Wednesday 18 December 2019  22:23:19 -0300 (0:00:00.863)       0:03:46.641 **** 
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<okd.example.com> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573 `" && echo ansible-tmp-1576718599.84-184846393932573="` echo /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573 `" ) && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> PUT /root/.ansible/tmp/ansible-local-96235WcL4t/tmpYKbGIw/custom.conf.j2 TO /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/source
+<okd.example.com> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/ /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/source && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/copy.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/ > /dev/null 2>&1 && sleep 0'
+NOTIFIED HANDLER container_runtime : restart container runtime for okd.example.com
+changed: [okd.example.com] => {
+    "changed": true, 
+    "checksum": "9e1e25c0262550dd6c750b8b58bfd898ccca1cb2", 
+    "dest": "/etc/systemd/system/docker.service.d/custom.conf", 
+    "diff": [], 
+    "gid": 0, 
+    "group": "root", 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": false, 
+            "checksum": "9e1e25c0262550dd6c750b8b58bfd898ccca1cb2", 
+            "content": null, 
+            "delimiter": null, 
+            "dest": "/etc/systemd/system/docker.service.d/custom.conf", 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": true, 
+            "group": null, 
+            "local_follow": null, 
+            "mode": null, 
+            "original_basename": "custom.conf.j2", 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": "/root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/source", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "md5sum": "3c142b6e4f182f866ab2cf8c98dc71ca", 
+    "mode": "0644", 
+    "owner": "root", 
+    "secontext": "system_u:object_r:container_unit_file_t:s0", 
+    "size": 345, 
+    "src": "/root/.ansible/tmp/ansible-tmp-1576718599.84-184846393932573/source", 
+    "state": "file", 
+    "uid": 0
+}
+
+TASK [container_runtime : stat] ******************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:52
+Wednesday 18 December 2019  22:23:21 -0300 (0:00:01.736)       0:03:48.377 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": true, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/etc/sysconfig/docker"
+        }
+    }, 
+    "stat": {
+        "atime": 1568384705.0, 
+        "attr_flags": "", 
+        "attributes": [], 
+        "block_size": 4096, 
+        "blocks": 8, 
+        "ctime": 1576718581.7951121, 
+        "dev": 64768, 
+        "device_type": 0, 
+        "executable": false, 
+        "exists": true, 
+        "gid": 0, 
+        "gr_name": "root", 
+        "inode": 33584698, 
+        "isblk": false, 
+        "ischr": false, 
+        "isdir": false, 
+        "isfifo": false, 
+        "isgid": false, 
+        "islnk": false, 
+        "isreg": true, 
+        "issock": false, 
+        "isuid": false, 
+        "mode": "0644", 
+        "mtime": 1568384705.0, 
+        "nlink": 1, 
+        "path": "/etc/sysconfig/docker", 
+        "pw_name": "root", 
+        "readable": true, 
+        "rgrp": true, 
+        "roth": true, 
+        "rusr": true, 
+        "size": 1094, 
+        "uid": 0, 
+        "version": "18446744072901842324", 
+        "wgrp": false, 
+        "woth": false, 
+        "writeable": true, 
+        "wusr": true, 
+        "xgrp": false, 
+        "xoth": false, 
+        "xusr": false
+    }
+}
+
+TASK [container_runtime : include_tasks] *********************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:58
+Wednesday 18 December 2019  22:23:22 -0300 (0:00:00.733)       0:03:49.111 **** 
+included: /root/openshift-ansible/roles/container_runtime/tasks/update_registries.yml for okd.example.com
+
+TASK [container_runtime : Update registries.conf] ************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/update_registries.yml:3
+Wednesday 18 December 2019  22:23:22 -0300 (0:00:00.484)       0:03:49.595 **** 
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c 'echo ~root && sleep 0'
+<okd.example.com> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813 `" && echo ansible-tmp-1576718602.72-71749837746813="` echo /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813 `" ) && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> PUT /root/.ansible/tmp/ansible-local-96235WcL4t/tmpws2uw3/registries.conf.j2 TO /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/source
+<okd.example.com> EXEC /bin/sh -c 'chmod u+x /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/ /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/source && sleep 0'
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/copy.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+<okd.example.com> EXEC /bin/sh -c 'rm -f -r /root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/ > /dev/null 2>&1 && sleep 0'
+changed: [okd.example.com] => {
+    "backup_file": "/etc/containers/registries.conf.10590.2019-12-18@22:23:23~", 
+    "changed": true, 
+    "checksum": "ac82cf06bfda69800dbd5b9ca6ca2b1555686e5c", 
+    "dest": "/etc/containers/registries.conf", 
+    "diff": [], 
+    "gid": 0, 
+    "group": "root", 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backup": true, 
+            "checksum": "ac82cf06bfda69800dbd5b9ca6ca2b1555686e5c", 
+            "content": null, 
+            "delimiter": null, 
+            "dest": "/etc/containers/registries.conf", 
+            "directory_mode": null, 
+            "follow": false, 
+            "force": true, 
+            "group": null, 
+            "local_follow": null, 
+            "mode": null, 
+            "original_basename": "registries.conf.j2", 
+            "owner": null, 
+            "regexp": null, 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": "/root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/source", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "md5sum": "1460ddc939326e6c7a7476d4720afd4d", 
+    "mode": "0644", 
+    "owner": "root", 
+    "secontext": "system_u:object_r:etc_t:s0", 
+    "size": 848, 
+    "src": "/root/.ansible/tmp/ansible-tmp-1576718602.72-71749837746813/source", 
+    "state": "file", 
+    "uid": 0
+}
+
+TASK [container_runtime : Set Proxy Settings] ****************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:60
+Wednesday 18 December 2019  22:23:23 -0300 (0:00:01.300)       0:03:50.895 **** 
+skipping: [okd.example.com] => (item={u'reg_conf_var': u'HTTP_PROXY', u'reg_fact_val': u''})  => {
+    "changed": false, 
+    "item": {
+        "reg_conf_var": "HTTP_PROXY", 
+        "reg_fact_val": ""
+    }, 
+    "skip_reason": "Conditional result was False"
+}
+skipping: [okd.example.com] => (item={u'reg_conf_var': u'HTTPS_PROXY', u'reg_fact_val': u''})  => {
+    "changed": false, 
+    "item": {
+        "reg_conf_var": "HTTPS_PROXY", 
+        "reg_fact_val": ""
+    }, 
+    "skip_reason": "Conditional result was False"
+}
+skipping: [okd.example.com] => (item={u'reg_conf_var': u'NO_PROXY', u'reg_fact_val': u''})  => {
+    "changed": false, 
+    "item": {
+        "reg_conf_var": "NO_PROXY", 
+        "reg_fact_val": ""
+    }, 
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [container_runtime : Set various Docker options] ********************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:80
+Wednesday 18 December 2019  22:23:24 -0300 (0:00:00.410)       0:03:51.305 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/lineinfile.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "backup": "", 
+    "changed": true, 
+    "diff": [
+        {
+            "after": "", 
+            "after_header": "/etc/sysconfig/docker (content)", 
+            "before": "", 
+            "before_header": "/etc/sysconfig/docker (content)"
+        }, 
+        {
+            "after_header": "/etc/sysconfig/docker (file attributes)", 
+            "before_header": "/etc/sysconfig/docker (file attributes)"
+        }
+    ], 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backrefs": false, 
+            "backup": false, 
+            "content": null, 
+            "create": false, 
+            "delimiter": null, 
+            "dest": "/etc/sysconfig/docker", 
+            "directory_mode": null, 
+            "firstmatch": false, 
+            "follow": false, 
+            "force": null, 
+            "group": null, 
+            "insertafter": null, 
+            "insertbefore": null, 
+            "line": "OPTIONS=' --selinux-enabled       --selinux-enabled --log-driver=journald --signature-verification=false -insecure-registry=172.30.0.0/16 --signature-verification=False'", 
+            "mode": null, 
+            "owner": null, 
+            "path": "/etc/sysconfig/docker", 
+            "regexp": "^OPTIONS=.*$", 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "state": "present", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "msg": "line replaced"
+}
+
+TASK [container_runtime : stat] ******************************************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:96
+Wednesday 18 December 2019  22:23:25 -0300 (0:00:01.274)       0:03:52.579 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/stat.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1", 
+            "follow": false, 
+            "get_attributes": true, 
+            "get_checksum": false, 
+            "get_md5": null, 
+            "get_mime": false, 
+            "path": "/etc/sysconfig/docker-network"
+        }
+    }, 
+    "stat": {
+        "atime": 1568384705.0, 
+        "attr_flags": "", 
+        "attributes": [], 
+        "block_size": 4096, 
+        "blocks": 8, 
+        "ctime": 1576718585.1051624, 
+        "dev": 64768, 
+        "device_type": 0, 
+        "executable": false, 
+        "exists": true, 
+        "gid": 0, 
+        "gr_name": "root", 
+        "inode": 33597988, 
+        "isblk": false, 
+        "ischr": false, 
+        "isdir": false, 
+        "isfifo": false, 
+        "isgid": false, 
+        "islnk": false, 
+        "isreg": true, 
+        "issock": false, 
+        "isuid": false, 
+        "mode": "0644", 
+        "mtime": 1568384705.0, 
+        "nlink": 1, 
+        "path": "/etc/sysconfig/docker-network", 
+        "pw_name": "root", 
+        "readable": true, 
+        "rgrp": true, 
+        "roth": true, 
+        "rusr": true, 
+        "size": 56, 
+        "uid": 0, 
+        "version": "454698586", 
+        "wgrp": false, 
+        "woth": false, 
+        "writeable": true, 
+        "wusr": true, 
+        "xgrp": false, 
+        "xoth": false, 
+        "xusr": false
+    }
+}
+
+TASK [container_runtime : Configure Docker Network OPTIONS] **************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:102
+Wednesday 18 December 2019  22:23:26 -0300 (0:00:00.594)       0:03:53.174 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/files/lineinfile.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+changed: [okd.example.com] => {
+    "backup": "", 
+    "changed": true, 
+    "diff": [
+        {
+            "after": "", 
+            "after_header": "/etc/sysconfig/docker-network (content)", 
+            "before": "", 
+            "before_header": "/etc/sysconfig/docker-network (content)"
+        }, 
+        {
+            "after_header": "/etc/sysconfig/docker-network (file attributes)", 
+            "before_header": "/etc/sysconfig/docker-network (file attributes)"
+        }
+    ], 
+    "invocation": {
+        "module_args": {
+            "attributes": null, 
+            "backrefs": false, 
+            "backup": false, 
+            "content": null, 
+            "create": false, 
+            "delimiter": null, 
+            "dest": "/etc/sysconfig/docker-network", 
+            "directory_mode": null, 
+            "firstmatch": false, 
+            "follow": false, 
+            "force": null, 
+            "group": null, 
+            "insertafter": null, 
+            "insertbefore": null, 
+            "line": "DOCKER_NETWORK_OPTIONS=' --mtu=1450'", 
+            "mode": null, 
+            "owner": null, 
+            "path": "/etc/sysconfig/docker-network", 
+            "regexp": "^DOCKER_NETWORK_OPTIONS=.*$", 
+            "remote_src": null, 
+            "selevel": null, 
+            "serole": null, 
+            "setype": null, 
+            "seuser": null, 
+            "src": null, 
+            "state": "present", 
+            "unsafe_writes": null, 
+            "validate": null
+        }
+    }, 
+    "msg": "line replaced"
+}
+
+TASK [container_runtime : Detect if docker is already started] ***********************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:116
+Wednesday 18 December 2019  22:23:26 -0300 (0:00:00.802)       0:03:53.977 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+ok: [okd.example.com] => {
+    "changed": false, 
+    "cmd": [
+        "systemctl", 
+        "show", 
+        "docker", 
+        "-p", 
+        "ActiveState"
+    ], 
+    "delta": "0:00:00.053805", 
+    "end": "2019-12-18 22:23:27.486480", 
+    "invocation": {
+        "module_args": {
+            "_raw_params": "systemctl show docker -p ActiveState", 
+            "_uses_shell": false, 
+            "chdir": null, 
+            "creates": null, 
+            "executable": null, 
+            "removes": null, 
+            "stdin": null, 
+            "warn": true
+        }
+    }, 
+    "rc": 0, 
+    "start": "2019-12-18 22:23:27.432675", 
+    "stderr": "", 
+    "stderr_lines": [], 
+    "stdout": "ActiveState=inactive", 
+    "stdout_lines": [
+        "ActiveState=inactive"
+    ]
+}
+
+TASK [container_runtime : Start the Docker service] **********************************************************************************************************************
+task path: /root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:121
+Wednesday 18 December 2019  22:23:27 -0300 (0:00:00.839)       0:03:54.818 **** 
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> ESTABLISH LOCAL CONNECTION FOR USER: root
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+FAILED - RETRYING: Start the Docker service (3 retries left).Result was: {
+    "attempts": 1, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": true, 
+            "enabled": true, 
+            "masked": null, 
+            "name": "docker", 
+            "no_block": false, 
+            "state": "started", 
+            "user": false
+        }
+    }, 
+    "msg": "Unable to start service docker: Job for docker.service failed because the control process exited with error code. See \"systemctl status docker.service\" and \"journalctl -xe\" for details.\n", 
+    "retries": 4
+}
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+FAILED - RETRYING: Start the Docker service (2 retries left).Result was: {
+    "attempts": 2, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": true, 
+            "enabled": true, 
+            "masked": null, 
+            "name": "docker", 
+            "no_block": false, 
+            "state": "started", 
+            "user": false
+        }
+    }, 
+    "msg": "Unable to start service docker: Job for docker.service failed because the control process exited with error code. See \"systemctl status docker.service\" and \"journalctl -xe\" for details.\n", 
+    "retries": 4
+}
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+FAILED - RETRYING: Start the Docker service (1 retries left).Result was: {
+    "attempts": 3, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": true, 
+            "enabled": true, 
+            "masked": null, 
+            "name": "docker", 
+            "no_block": false, 
+            "state": "started", 
+            "user": false
+        }
+    }, 
+    "msg": "Unable to start service docker: Job for docker.service failed because the control process exited with error code. See \"systemctl status docker.service\" and \"journalctl -xe\" for details.\n", 
+    "retries": 4
+}
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/systemd.py
+<okd.example.com> EXEC /bin/sh -c '/usr/bin/python && sleep 0'
+fatal: [okd.example.com]: FAILED! => {
+    "attempts": 3, 
+    "changed": false, 
+    "invocation": {
+        "module_args": {
+            "daemon_reload": true, 
+            "enabled": true, 
+            "masked": null, 
+            "name": "docker", 
+            "no_block": false, 
+            "state": "started", 
+            "user": false
+        }
+    }, 
+    "msg": "Unable to start service docker: Job for docker.service failed because the control process exited with error code. See \"systemctl status docker.service\" and \"journalctl -xe\" for details.\n"
+}
+
+RUNNING HANDLER [container_runtime : restart container runtime] **********************************************************************************************************
+Wednesday 18 December 2019  22:25:03 -0300 (0:01:35.809)       0:05:30.627 **** 
+
+PLAY RECAP ***************************************************************************************************************************************************************
+localhost                  : ok=11   changed=0    unreachable=0    failed=0   
+okd.example.com            : ok=66   changed=20   unreachable=0    failed=1   
+
+
+INSTALLER STATUS *********************************************************************************************************************************************************
+Initialization  : Complete (0:01:16)
+Wednesday 18 December 2019  22:25:03 -0300 (0:00:00.030)       0:05:30.657 **** 
+=============================================================================== 
+container_runtime : Start the Docker service --------------------------------------------------------------------------------------------------------------------- 95.81s
+/root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:121 --------------------------------------------------------------------------------------------
+container_runtime : Install Docker ------------------------------------------------------------------------------------------------------------------------------- 93.81s
+/root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:23 ---------------------------------------------------------------------------------------------
+Ensure openshift-ansible installer package deps are installed ---------------------------------------------------------------------------------------------------- 40.88s
+/root/openshift-ansible/playbooks/init/base_packages.yml:51 -------------------------------------------------------------------------------------------------------------
+os_firewall : Wait 10 seconds after disabling firewalld ---------------------------------------------------------------------------------------------------------- 10.30s
+/root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:14 ---------------------------------------------------------------------------------------------------------
+os_firewall : need to pause here, otherwise the iptables service starting can sometimes cause ssh to fail -------------------------------------------------------- 10.28s
+/root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:43 ---------------------------------------------------------------------------------------------------------
+os_firewall : Install iptables packages --------------------------------------------------------------------------------------------------------------------------- 8.59s
+/root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:19 ---------------------------------------------------------------------------------------------------------
+openshift_excluder : Install docker excluder - yum ---------------------------------------------------------------------------------------------------------------- 8.37s
+/root/openshift-ansible/roles/openshift_excluder/tasks/install.yml:9 ----------------------------------------------------------------------------------------------------
+Gathering Facts --------------------------------------------------------------------------------------------------------------------------------------------------- 2.86s
+/root/openshift-ansible/playbooks/prerequisites.yml:3 -------------------------------------------------------------------------------------------------------------------
+openshift_repos : refresh cache ----------------------------------------------------------------------------------------------------------------------------------- 2.38s
+/root/openshift-ansible/roles/openshift_repos/handlers/main.yml:2 -------------------------------------------------------------------------------------------------------
+openshift_repos : Ensure libselinux-python is installed ----------------------------------------------------------------------------------------------------------- 2.18s
+/root/openshift-ansible/roles/openshift_repos/tasks/main.yaml:6 ---------------------------------------------------------------------------------------------------------
+os_firewall : Ensure firewalld service is not enabled ------------------------------------------------------------------------------------------------------------- 2.18s
+/root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:3 ----------------------------------------------------------------------------------------------------------
+os_firewall : Start and enable iptables service ------------------------------------------------------------------------------------------------------------------- 2.10s
+/root/openshift-ansible/roles/os_firewall/tasks/iptables.yml:31 ---------------------------------------------------------------------------------------------------------
+get openshift_current_version ------------------------------------------------------------------------------------------------------------------------------------- 1.92s
+/root/openshift-ansible/playbooks/init/cluster_facts.yml:10 -------------------------------------------------------------------------------------------------------------
+Fetch ca.crt from cluster if exists ------------------------------------------------------------------------------------------------------------------------------- 1.83s
+/root/openshift-ansible/playbooks/init/sanity_checks.yml:34 -------------------------------------------------------------------------------------------------------------
+Gather Cluster facts ---------------------------------------------------------------------------------------------------------------------------------------------- 1.79s
+/root/openshift-ansible/playbooks/init/cluster_facts.yml:27 -------------------------------------------------------------------------------------------------------------
+container_runtime : Configure Docker service unit file ------------------------------------------------------------------------------------------------------------ 1.74s
+/root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:44 ---------------------------------------------------------------------------------------------
+openshift_repos : Configure origin gpg keys ----------------------------------------------------------------------------------------------------------------------- 1.64s
+/root/openshift-ansible/roles/openshift_repos/tasks/centos_repos.yml:7 --------------------------------------------------------------------------------------------------
+container_runtime : Update registries.conf ------------------------------------------------------------------------------------------------------------------------ 1.30s
+/root/openshift-ansible/roles/container_runtime/tasks/update_registries.yml:3 -------------------------------------------------------------------------------------------
+container_runtime : Get current installed Docker version ---------------------------------------------------------------------------------------------------------- 1.29s
+/root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:9 ----------------------------------------------------------------------------------------------
+container_runtime : Set various Docker options -------------------------------------------------------------------------------------------------------------------- 1.27s
+/root/openshift-ansible/roles/container_runtime/tasks/package_docker.yml:80 ---------------------------------------------------------------------------------------------
