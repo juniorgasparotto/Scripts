@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# liga o debug
+set -x
+
+# indica para parar quando ocorrer qualquer erro
+set -e
+
+wget https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_linux_amd64.zip
+unzip vagrant_2.2.6_linux_amd64.zip
+mv vagrant /usr/local/bin/
+
+git clone https://github.com/4linux/4542 okd-3.11
+
+# Dependendo da sua máquina ou internet, levará em torno de 30 minutos! 
+cd okd-3.11
+vagrant up
+vagrant status
+
+sudo su 
+oc get nodes
+
+# abrir e adicionar
+# C:\Windows\System32\drivers\etc\hosts
+# 172.27.11.10 okd.example.com
+# https://okd.example.com:8443. O usuário e senha são 
+# usr: developer
+# pwd: 4linux
+# Lembre-se de acessar https://hawkular-metrics.172-27-11-10.nip.io e aceitar o certificado auto-assinado.
