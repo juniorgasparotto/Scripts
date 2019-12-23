@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# 1) Logar como root na máquina (use exit caso tenha logado com outro usuário)
+
+# 2) Atribuir os usuários como root
+echo "stack ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# 3) Sair do root
+exit
+
+# 4) Logar com o usuário 
+
+# 5) Se passar como root
+sudo su
+
+# 6) Instalar utilitários
+yum install git
+
+# 7) Clonar o repo de scripts
+git clone https://github.com/juniorgasparotto/Scripts
+
+# 8) Setar IP Fixo
+cp /Scripts/skynet/sysconfig/network-scripts/ifcfg-eth0 /etc/skynet/sysconfig/network-scripts
+
+# 9) Restart a rede
+system network Restart
+
+# 10) Verificar se deu tudo certo
+ip add
+ping 8.8.8.8
+curl google.com
+
+# 11) Iniciar a instalação do openshift ALL-IN-ONE

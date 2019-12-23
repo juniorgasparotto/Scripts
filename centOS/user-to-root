@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# 1) Logue como ROOT (se tiver logado com outro user, digite "exit" e logue como root)
+echo "stack ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
