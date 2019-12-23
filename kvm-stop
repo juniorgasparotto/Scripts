@@ -1,0 +1,1 @@
+sudo rmmod -f kvm_intel

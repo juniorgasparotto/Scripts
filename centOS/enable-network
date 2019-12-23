@@ -1,0 +1,7 @@
+# https://lintut.com/how-to-setup-network-after-rhelcentos-7-minimal-installation/
+
+# Lista as placas ethernets (apenas para consulta)
+nmcli d
+
+# Abre o gerenciador de redes
+nmtui
