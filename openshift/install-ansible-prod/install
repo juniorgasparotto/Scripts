@@ -14,14 +14,14 @@ set -e
 cat /etc/os-release
 sudo yum update
 
-cat /etc/hosts
 echo -e "" > /etc/hosts
 cat >> /etc/hosts <<EOF
 127.0.0.1   okd.example.com okd
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-192.168.0.109 okd.example.com
+192.168.0.111 okd.example.com
 EOF
+cat /etc/hosts
 
 # Logar como root e adicionar a seguinte linha
 echo "junior  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/junior
@@ -29,8 +29,8 @@ echo "junior  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/junior
 
 # yum install git docker net-tools
 yum install -y wget git vim PyYAML python-jinja2 python-paramiko python-setuptools python-six python2cryptography sshpass java-1.8.0-openjdk-headless python-passlib
-yum install -y docker-1.13.1
-docker run hello-world
+# yum install -y docker-1.13.1
+# docker run hello-world
 
 # Nenhum pacote python2cryptography disponível.
 
