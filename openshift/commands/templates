@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Visualizar todos os templates
+oc get templates -n openshift
+
+# Visualizar um template no formato YAML 
+oc get template cakephp-mysql-example -o yaml -n openshift
+
+# Jogar para um arquivo 
+oc get template cakephp-mysql-example -o yaml -n openshift  > cakephp.yaml
+oc get template dotnet-example -o yaml -n openshift  > dotnet-example.yaml
+
+# Editar um template no formato
+oc edit template cakephp-mysql-example -n openshift
+
+# Visualizar os parametros de um template
+oc process cakephp-mysql-example --parameters -n openshift
+
+# Criar uma aplicação com base em um template usando new-app parametrizado
+oc new-app mongodb-ephemeral --name mongo -p MONGODB_USER=okd -p MONGODB_PASSWORD=teste -p MONGODB_DATABASE=okd -p MONGODB_ADMIN_PASSWORD=1234
+
+# Testando a aplicação (abrir o pod pelo terminal e digitar)
+mongo okd -u okd -p teste --authenticationDatabase=okd
+show tables
+db.alunos.insert({"nome" : "Hector", "sobrenome" : "Vido Silva", "cargo" : "Construtor"}) 
+db.alunos.findOne()
+
+# Conteúdo de um template baseado no lighttpd

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sudo yum install tree
+
+# Obtem todos os níveis
+tree 
+
+# Obtem até o 1 nível
+tree -L 1
+
+# Obtem arquivos e pastas ocultas
+tree -la -L 1

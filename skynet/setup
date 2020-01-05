@@ -19,11 +19,14 @@ yum install git
 # 7) Clonar o repo de scripts
 git clone https://github.com/juniorgasparotto/Scripts
 
-# 8) Setar IP Fixo
-cp /Scripts/skynet/sysconfig/network-scripts/ifcfg-eth0 /etc/skynet/sysconfig/network-scripts
+# 8) Setar IP Fixo: cat /etc/sysconfig/network-scripts/ifcfg-eth0
+cp /Scripts/skynet/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts
+
+# 8.1) Troque a interface para usar o arquivo eth0 (edite pela interface)
+nmtui
 
 # 9) Restart a rede
-system network Restart
+service network restart
 
 # 10) Verificar se deu tudo certo
 ip add

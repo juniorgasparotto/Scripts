@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Visualiza o status de um projeto (corresponde a tela "overview")
+oc status -n [namespace]
+oc status -n teste
+
+# Exibe com outro tipo de output (dot???)
+ oc status -o dot

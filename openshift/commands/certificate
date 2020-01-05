@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Criar certificado
+openssl req [tipo-certificado] -[nao-criptograda] -keyout [caminho-chave] -out [caminho-certificado]
+openssl req -x509 -nodes -keyout key.pem -out cert.pem

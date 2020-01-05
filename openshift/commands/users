@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# 
+# O OPENSHIFT USA O CONCEITO DE RBAC PARA CONTROLAR OS USUARIOS E GRUPOS
+# https://docs.microsoft.com/pt-br/azure/role-based-access-control/overview
+
+# Lista todos os usuários na config padrão usando htpasswd
+cat /etc/origin/master/htpasswd
+
+# Criar usuário 
+htpasswd -Bb /etc/origin/master/htpasswd junior junior
+
+# Descobrir quem esta logado
+oc whoami
+
+# Descobrir o token do usuário logado
+oc whoami -t
+
+# logar
+oc login -u [user] [pwd]
+
+# login após reinciar (ainda não entendi o motivo)
+oc login https://okd.example.com:8443 -u [username]
+oc login https://okd.example.com:8443 -u junior
+oc login https://okd.example.com:8443 -u system:admin
+
+# logar como admin
+oc login -u system:admin
+
+# Listar usuários
+oc get users
+
+# Listar identidades
+oc get identity
+
+# Listar roles
+oc get roles -n openshift
+
+# Lista o detalhes de uma role
+oc describe role shared-resource-viewer -n openshift
+
+# Lista os verbos de uma role
+oc describe role.rbac shared-resource-viewer -n openshift
+
+# Lista as rolebindings que uni os usuários/grupo a uma clusterrole
+oc get rolebindings -n openshift
+
+# Lista todas as clusterrolebindings
+oc get clusterrolebindings -n openshift
+
+# Lista todas as cluester roles
+oc get clusterrole
+
+# Edita uma cluster role
+oc edit clusterrole [name]
+
+# Adiciona uma cluster role a um usuário em um projeto (ou no projeto padrão se não for especificado)
+oc adm policy add-role-to-user cluster-admin [username] -n [namespace|project]
+oc adm policy add-role-to-user cluster-admin junior -n kube-public
+
+# Remove uma clusterrole de um projeto de um projeto (ou do projeto padrão se não for especificado)
+oc adm policy remove-role-from-user cluster-admin junior -n [namespace|project]
+oc adm policy remove-role-from-user cluster-admin junior -n kube-public
+
+# Virar administrador do cluster
+oc adm policy add-cluster-role-to-user cluster-admin junior
+
+# Lista roles bindings para conta de serviços
+oc get sa
+
+# Descreve um oauthclient
+oc describe oauthclient [name]
+oc describe oauthclient openshift-console
+
+# recupera um secret
+oc get secret [name] -o=jsonpath='{.data.clientSecret}' -n [namespace] | base64 --decode
+oc get secret console-oauth-config -o=jsonpath='{.data.clientSecret}' -n openshift-console | base64 --decode
+
+# Permite criar projetos
+oc adm policy add-cluster-role-to-user self-provisioner [username]
+oc adm policy add-cluster-role-to-user self-provisioner junior
+
+# Verifica quem pode fazer o que dentro do cluster
+oc adm policy who-can [verbo] [objeto] -n [namespace|project]
+oc adm policy who-can get pod -n default
+
+# Criar grupos
+oc adm groups new [nome]
+oc adm groups new [criadores]
+
+# Adicionar usuário a um grupo
+oc adm groups add-users [group-name] [username]
+oc adm groups add-users criadores junior
+
+# Adiciona uma role no grupo
+oc adm add-cluster-role-to-group [role] [grupo]
+oc adm add-cluster-role-to-group self-provisioner criados
+
+# Adicionar cluster roles de SUDO para se passar pelo system:admin
+oc adm policy add-cluster-role-to-user sudoer [username]
+oc adm policy add-cluster-role-to-user sudoer junior
+oc get nodes --as system:admin

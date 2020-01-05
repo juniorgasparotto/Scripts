@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Cria um volume empty-dir
+oc set volume rc/busybox --add --containers='*' --mount-path='/empty-dir'
+
+# Adiciona um PVC a um DC
+oc set volume dc/docker-registry --add --name=[name] -t pvc --claim-name=[pvc-name] --overwrite
+oc set volume dc/site --add --name=storage -t pvc --claim-name=pvc-files --mount-path='/tmp/storage' --overwrite

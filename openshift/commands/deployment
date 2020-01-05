@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Criar um deploy config 
+oc create deploy [name] --image=[image-name]
+oc create deploy memcached --image=memcached
+
+# Criar um deploy config CUIDADO - o parâmetro "-n" não funciona, ele sempre usará o projeto default
+oc create deploy memcached --image=memcached -n [projeto]
+
+# Remover deploy
+oc delete deploy [projeto]
+oc delete deploy memcached
+
+#### TEMPLATE #####
+
+# modelo de objeto
+vi deploy.yml
+
+# Conteudo
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alpine
+  name: alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+    spec:
+      volumes:
+      - name: cache
+        persistentVolumeClaim:
+          claimName: pvc-hostpath
+      containers:
+      - image: alpine
+        name: alpine
+        tty: true
+        stdin: true
+        volumeMounts:
+        - name: cache
+          mountPath: /tmp/cache
+
+# Criar o deploy
+oc create -f deploy.yml

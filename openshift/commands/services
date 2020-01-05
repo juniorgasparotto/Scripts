@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Lista todos os services
+oc get services
+oc get service
+oc get svc
+
+# Descrever um serviço
+oc describe svc flesk -n teste

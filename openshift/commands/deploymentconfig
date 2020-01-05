@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Lista todos as rotas
+oc get deploymentconfig -n [projeto]
+oc get deploymentconfig -n teste
+oc get dc -n teste
+
+# Editar um dc via console
+oc edit dc [dc-name] -n [projeto]
+oc edit dc flesk -n teste
+
+# Criar um deploy config 
+

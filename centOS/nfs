@@ -1,0 +1,70 @@
+#!/bin/bash
+
+## https://pplware.sapo.pt/linux/configuracao-de-um-servidor-e-cliente-nfs-no-centos-7/
+
+##### SERVER
+
+# Instalar o NF
+yum install nfs-utils
+
+# Criar directório para partilha
+mkdir /files/registry
+
+# Definir permissões
+chmod -R 777 /files/registry
+
+#  Indicar quais as máquinas que têm acesso à partilha
+vi /etc/exports
+
+/files/registry 192.168.0.10/255.255.255.0(rw,all_squash)
+
+# Depois de realizada a configuração, vamos activar a exportação usando o comando
+exportfs -a;
+
+# Iniciar e acrescentar ao arranque os seguintes serviços
+systemctl enable rpcbind;
+systemctl enable nfs-server;
+systemctl enable nfs-lock;
+systemctl enable nfs-idmap;
+systemctl start rpcbind;
+systemctl start nfs-server;
+systemctl start nfs-lock;
+systemctl start nfs-idmap;
+
+##### CLIENTE
+
+# Do lado do cliente, apenas é necessário instalar alguns utilitários do NFS através do comando:
+yum install nfs-utils
+
+# Iniciar e acrescentar ao arranque os seguintes serviços:
+systemctl enable rpcbind;
+systemctl enable nfs-server;
+systemctl enable nfs-lock;
+systemctl enable nfs-idmap;
+systemctl start rpcbind;
+systemctl start nfs-server;
+systemctl start nfs-lock;
+systemctl start nfs-idmap;
+
+# Em seguida criamos um directório para montar o sistema de ficheiros paratilhado do servidor
+mkdir /var/public
+
+# Por fim basta mapear o directório do servidor no directório do cliente. Considerando que o servidor tem associado o IP: 192.168.10.254, bastaria usar o comando:
+mount -t nfs 192.168.0.10:/files/registry /var/public
+
+# Consulta o NFS
+showmount -e 192.168.0.10
+
+# Desmontar
+umount /var/public
+
+echo "A" > /files/registry
+ls /var/public
+
+# Montar auto quando reiniciar
+sudo vi /etc/fstab
+192.168.0.10:/files/registry    /var/public   nfs defaults 0 0
+
+# O NFS demora demais para reiniciar caso não esteja no arquivo fstab, reduzir o tempo para 1min
+sudo vi /usr/lib/systemd/system/reboot.target
+    # JobTimeoutSec=1min

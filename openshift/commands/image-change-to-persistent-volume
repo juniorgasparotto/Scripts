@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# logar como administrador
+sudo su
+
+# Criar a pasta NFS compartilhada (seguir os passos do doc de NFS do centOs)
+/centOS/nfs
+
+# Setar o projeto default
+oc project default
+
+# Criar PV e PVC para guardar as imagens para não perder após o reboot
+vi pv-pvc.yml
+
+# Copiar o conteudo abaixo
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-registry
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    server: 192.168.0.10
+    path: /files/registry
+---
+apiVersion: v1
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "nfs-registry"
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: "10Gi"
+  volumeName: "nfs-registry"
+
+
+# Criar os objetos
+oc create -f pv-pvc.yml
+
+# Exibir Registry interno - OCR (Openshift Container Registry ou ATOMIC Registry)/(como administrador)
+oc get route -n default
+
+    # docker-registry    docker-registry-default.192.168.0.10.nip.io              docker-registry    <all>     passthrough   None
+    # registry-console   registry-console-default.192.168.0.10.nip.io             registry-console   <all>     passthrough   None
+
+    # https://docker-registry-default.192.168.0.10.nip.io
+
+# Criar backup para restaurar caso necessário
+oc get dc docker-registry -n default -o yaml > docker-registry.dc.backup
+
+# Editar o DeploymentConfig do docker-registry
+EDITOR=vim oc edit dc docker-registry -n default
+
+# INIT
+
+###FROM (BACKUP):
+volumes:
+  - emptyDir: {}
+    name: registry-storage
+  - name: registry-certificates
+    secret:
+      defaultMode: 420
+      secretName: registry-certificates
+
+###TO:
+volumes:
+  - name: registry-storage
+    persistentVolumeClaim:
+      claimName: nfs-registry
+# END
+
+# Garantir que as PODs voltaram
+oc get pods -n default
+
+# Testar (baixar uma imagem)
+oc login -u junior
+oc whoami -t
+sudo docker login docker-registry.default.svc:5000 -u junior -p $(oc whoami -t)
+sudo docker pull docker-registry.default.svc:5000/openshift/nginx
+
+sudo docker tag memcached:alpine docker-registry.default.svc:5000/teste/memcached:alpine
+sudo docker push docker-registry.default.svc:5000/teste/memcached:alpine

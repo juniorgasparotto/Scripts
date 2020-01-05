@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Listar todas as configurações de um namespace
+oc get configmap -n [namespace]
+oc get configmap -n openshift-monitoring
+
+# Edita uma configuração
+oc edit configmap cluster-monitoring-config -n openshift-monitoring
+oc edit configmap grafana-dashboards -n openshift-monitoring
+oc edit configmap prometheus-k8s-rulefiles-0 -n openshift-monitoring
+
+# Criar um configmap a partir de um arquivo
+oc create configmap [name] --from-file=[file-name]=[file-full-path]
+oc create configmap grafana-config --from-file=grafana.ini=./grafana.ini

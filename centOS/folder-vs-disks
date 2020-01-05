@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Verificar qual pasta está linkada com qual dispositivo (HD-Disk)
+df -h
+
+# Ou
+mount | grep '^/dev'

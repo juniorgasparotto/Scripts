@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# https://www.cyberciti.biz/faq/linux-unix-open-ports/
+
+# Instala o app
+yum install install net-tools
+
+# Lista todas as portas abertas
+netstat -lntu
+
+# Lista os serviços que estão ouvindo
+netstat -ltup
+
+# Instala o pacote para abrir portas
+yum install nmap-ncat.x86_64
+
+# Abre a porta do SAMBA
+nc -l 137 

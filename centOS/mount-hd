@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Exibir todos os discos (HDs)
+fdisk -l
+
+# Execute o seguinte comando para iniciar o processo:
+# 1) Digite a letra “n” para criar um novo particionamento.
+# 2) Escolha o tipo, em nosso caso vamos criar a “Primary”
+# 3) Digite 1
+# 4) Aperte enter até terminar
+# 5) Aperte "w" para gravar
+fdisk /dev/sdb
+
+# Para formatar a unidade digite o comando:
+mkfs.ext3 /dev/sdb
+
+# Criar o diretório na pasta raiz
+cd /
+sudo mkdir /files
+
+# Monte a pasta no HD novo:
+sudo mount -t ext3 /dev/sdb /files
+
+# Criar montagem automática
+sudo vi /etc/fstab
+
+# Edite o arquivo na última linha:
+/dev/sdb /files ext3 defaults 1 2
+
+# Verificar qual pasta está linkada com qual dispositivo (HD-Disk)
+df -h
+
+# Ou
+mount | grep '^/dev'

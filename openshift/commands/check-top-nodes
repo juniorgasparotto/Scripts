@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Verifica o node que está consumindo mais memória
+oc adm top nodes

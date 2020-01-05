@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Habilita ou desabilita as métricas de HPA
+sudo su
+vi /etc/ansible/hosts
+openshift_cluster_monitoring_operator_install = true|false
+
+# Executa a playbook para reconfigurar as métricas
+ansible-playbook /root/openshift-ansible/playbooks/metrics-server/config.yml
+
+# Validar se o projeto "openshift-metrics" foi certificado
+oc get pods -n openshift-metrics-server
+
+# Habilia as interfaces
+ansible-playbook /root/openshift-ansible/playbooks/openshift-monitoring/config.yml
+
+# Valida se foi com sucesso
+oc get pods -n openshift-monitoring
+
+# Obtem as URLs
+oc get routes -n openshift-monitoring
+# alertmanager-main-openshift-monitoring.192.168.0.10.nip.io
+# grafana-openshift-monitoring.192.168.0.10.nip.io
+# prometheus-k8s-openshift-monitoring.192.168.0.10.nip.io
+
+# Verificar o status do node (se retornar resultado é pq deu certo)
+oc adm top nodes

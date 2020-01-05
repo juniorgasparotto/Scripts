@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Obtem a lista de todos os nodes
+oc get nodes
+
+# Verifica o node que está consumindo mais memória
+oc adm top nodes
+
+# Restarta o serviço de nodes
+systemctl restart origin-nodes

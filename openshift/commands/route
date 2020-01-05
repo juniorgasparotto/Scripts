@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Lista todos as rotas
+oc get route
+oc get routes
+
+# Remove uma rota
+oc delete route [name]
+oc delete route flask-alpine
+
+# Criar rota para um serviço
+oc create route flask-alpine --service flask-alpine
+
+# Criar rota com certificado auto assinado
+openssl req -x509 -nodes -keyout key.pem -out cert.pem
+oc create route edge flask-alpine --service flask-alpine --key key.pem --cert cert.pem --ca-cert cert.pem

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Busca todas as imagens com o GREP para buscar no resultado
+oc get imagestream -n [namespace]
+oc get imagestream -n openshift 
+oc get is -n openshift
+
+# Busca todas as imagens com o GREP para buscar no resultado
+oc get imagestream -n [namespace] | grep [img-name]
+oc get imagestream -n openshift | grep nginx
+oc get is -n openshift | grep nginx

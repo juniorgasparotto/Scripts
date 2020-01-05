@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Obtem o IP e o MCAdress
+ip addr show [interface-name] | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
+ip addr show eno1 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'

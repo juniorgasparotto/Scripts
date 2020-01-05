@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Obtem o conteúdo de um objeto
+oc get -o yaml [object] [name]
+oc get -o yaml secret console-oauth-config -n openshift-console
+oc get -o yaml configmap console-config -n openshift-console
+
+# Edita um objeto sem precisar editar o YML
+oc patch 
+
+# Gera um arquivo com o output de uam estrutura de um objeto
+# O argumento dry-run serve para não executar, mas sim, apenas gerar a saida
+oc create deploy alpine --image alpine --dry-run -o yaml > output.yml

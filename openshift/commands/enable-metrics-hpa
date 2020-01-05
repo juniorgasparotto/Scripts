@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Habilita ou desabilita as métricas de HPA
+sudo su
+vi /etc/ansible/hosts
+openshift_metrics_install_metrics = true|false
+
+# Executa a playbook para reconfigurar as métricas
+ansible-playbook /root/openshift-ansible/playbooks/openshift-metrics/config.yml
+
+# Aceitar o certificado no browser
+https://hawkular-metrics.192.168.0.10.nip.io/hawkular/metrics
+
+# Validar se o projeto "openshift-metrics" foi certificado
+oc get pods -n openshift-infra
+
+# Verificar o status do node (se retornar resultado é pq deu certo)
+oc adm top nodes

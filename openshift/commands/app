@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Listar todos os objetos de uma aplicação
+oc get all -l app=memcached
+oc get all -l app=site
+
+# Deletar todos os objetos de uma aplicação
+oc delete all -l app=[app-name]
+oc delete all -l app=memcached
+
+# To list all local templates and image streams, use:
+oc new-app -L
+
+# Busca uma image stream, docker image e templates 
+oc new-app -S [image-name]
+oc new-app -S httpd
+oc new-app -S php
+oc new-app -S --template=ruby
+oc new-app -S --image-stream=mysql
+oc new-app -S --docker-image=python
+
+# Cria uma aplicação 
+oc new-app --name [name] [image-stream]~[git-repository-url]
+oc new-app --name [name] [image-stream]~[git-repository-url#branch-name]
+oc new-app --name site httpd~https://github.com/sheikh005/bootsapp
+oc new-app --name site httpd~https://github.com/sheikh005/bootsapp#master
+oc new-app --name flask-alpine https://github.com/4linux/4542-python#docker APP_HOST="0.0.0.0" APP_PORT="8080"
+
+# Cria uma aplicação com variaveis de build
+oc new-app --name [name] [image-stream]~[git-repository-url] -e KEY=VALUE -e KEY2=VALUE2
+
+# Verifica o status geral
+oc status
+
+# Acompanha o build
+oc logs -f bc/site
+
+# Acompanha os logs de uma pod com mais de um container (-c especifica  o nome)
+oc logs -f [pod-name] -c [container-name]
+oc logs -f busybox-kxwps -c writer
+oc logs -f busybox-2xvf9 -c reader
+
+# Cria uma rota
+oc expose service [name]
+oc expose service/[name]
+oc expose svc/[name]
+oc expose svc/site
+oc get route
+
+# Cria um serviço em cima de um deployment config
+oc expose dc [dc-name]
+
+# Cria um serviço em cima de uma POD
+oc expose pod [pod-name]

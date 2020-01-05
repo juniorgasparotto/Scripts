@@ -27,7 +27,7 @@ cp -f /root/openshift-ansible/ansible.cfg /etc/ansible/ansible.cfg
 
 cd ~
 git clone https://github.com/juniorgasparotto/Scripts.git
-cp ~/Scripts/openshift/install-ansible-prod/hosts.all-in-one /etc/ansible/hosts
+cp ~/Scripts/openshift/install/ansible-all-in-one/hosts /etc/ansible/hosts
 
 ansible-playbook /root/openshift-ansible/playbooks/prerequisites.yml
 ansible-playbook /root/openshift-ansible/playbooks/deploy_cluster.yml

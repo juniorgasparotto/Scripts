@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# O docker é instalado como root, então é preciso logar como root
+sudo su
+
+# Listar todas as imagens
+docker images
+docker images ls
+
+# Baixar uma imagem
+docker pull [image-name]
+docker pull memcached:alpine
+
+# Excluir uma imagem (-f força quando tem mais de uma com o mesmo nome)
+docker image rm -f [img-name1] [img-name2] [img-name3]
+docker image rm -f memcached:alpine
+
+# Enviar a imagem de volta para o docker, por padrão loga no docker.hub
+docker login [url]=docker.io
+docker tag [image-name] [new-name]
+docker push [new-name]
+
+docker login
+docker login quay.io
+docker tag memcached:alpine docker.io/juniorgasparotto/memcached:alpine
+docker push docker.io/juniorgasparotto/memcached:alpine
+docker pull docker.io/juniorgasparotto/memcached:alpine
+
+# Exportar imagem para arquivo compactado (tar)
+docker save memcached:alpine -o memcached.tar
+
+# Carregar uma imagem de um arquivo TAR
+docker load -i memcached.tar

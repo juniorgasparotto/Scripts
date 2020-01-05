@@ -1,0 +1,3 @@
+# adicionar um usuário a um grupo
+usermod -a -G smbgrp root
+usermod -a -G smbgrp junior

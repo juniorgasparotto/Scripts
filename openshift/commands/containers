@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Listar todos os containers da máquina
+sudo docker container ps

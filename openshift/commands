@@ -1,3 +1,0 @@
-oc process -f [URL]: Acho que serve para uma app com base em um template ou Obtem um template de qualquer lugar 
-oc get users: recupera todos os usuários
-oc get identity: recupera a identidade dos usuários

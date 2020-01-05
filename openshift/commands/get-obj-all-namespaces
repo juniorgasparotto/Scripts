@@ -1,0 +1,4 @@
+#!/bin/bash
+
+oc get [obj] --all-namespaces
+oc get pod --all-namespaces

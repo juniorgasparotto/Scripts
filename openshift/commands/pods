@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Lista todas as PODs
+oc get pods
+
+# Lista todas as PODs com mais informações (wide = largo)
+oc get pods -o wide
+
+# Criar uma POD por arquivo
+oc create pod -f [file-path.yml]
+
+# Delete todas as pods de um namespace
+oc delete --all pods -n [namespace]
+oc delete --all pods -n openshift-console
+
+# Deleta todas as PODs com o mesmo label
+oc delete pods -l app=busybox
+
+# Visualizar uma POD
+oc describe pod flesk -n teste
+
+# Executar comando dentro dos container
+oc rsh deploy/memcached cat /etc/os-release
+oc rsh pods/site-1-jngrv cat /etc/os-release
+oc exec site-1-jngrv cat /etc/os-release
+
+# Entra dentro da POD para executar comandos
+oc exec -ti [podname] sh
+oc exec -ti alpine-7656fc89b6-vjcf4 sh
+oc exec -ti alpine-files-658f4d8b5b-qt6bb sh
+oc exec -ti alpine-files2-9c6cbf4bb-mv464 sh
+oc exec -ti site-4-ldcsb sh
+oc exec -ti grafana-6b9f85786f-dg7lp sh

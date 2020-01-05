@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Lista todos os volumes persistentes
+oc get persistentvolume
+oc get pv
+
+#### TEMPLATE do tipo HOST-PATH #####
+
+# modelo de objeto
+vi pv-files.yml
+
+# Conteudo de um PV (HOSTPATH)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-hostpath
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /tmp/alpine
+
+# Conteudo de um PV (NFS)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-redis
+spec:
+  capacity:
+    storage: 512Mi
+  accessModes:
+  - ReadWriteMany
+  - ReadWriteOnce
+  nfs:
+    server: 192.168.0.10
+    path: /files/registry
+
+# Criar o PV
+oc create -f pv-files.yml
+
+# Dar permissão para os PODs poderem acessar/escrever na pasta
+ls -ld /tmp/alpine
+    # drwxr-xr-x. 2 root root 19 Dez 29 17:14 /tmp/alpine
+cd /tmp/alpine
+sudo chmod 775 /tmp/alpine
+    # drwxrwxr-x. 2 root root 19 Dez 29 17:14 /tmp/alpine
+
+# Muda o contexto do clinux para que os containers do docker consigam acessar o diretorio
+sudo chcon -R unconfined_u:object_r:svirt_sandbox_file_t:s0 /tmp/alpine

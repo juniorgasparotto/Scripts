@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# https://e-tinet.com/linux/descompactar-tar-gz/
+
+# Listar conteudo de um TAR
+tar -tvf memcached.tar
+
+# COMPRIMIR UM ARQUIVO OU DIRETÓRIO
+tar -czvf nome-do-arquivo.tar.gz /home/docs/leiame.txt
+
+# COMPRIMIR MÚLTIPLOS ARQUIVOS OU DIRETÓRIOS SIMULTANEAMENTE
+tar -czvf arquivo.tar.gz /home/docs/Ebooks /home/usr/app/lista.odt home/docs/Download/tutorial.mkv
+
+# Descompactar
+tar -xvzf arquivo.tar.gz

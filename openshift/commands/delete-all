@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Deletar todos os objetos de uma aplicação. Deleta os secrets depois, pq por algum motivo eles não são apagados via delete all
+oc delete all -l app=[app-name] -n [namespace]
+oc delete all -l app=memcached -n teste
+oc delete secrets app=memcached -n teste

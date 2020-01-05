@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Obtem a lista de projetos com um "*" para mostrar qual projeto é que está sendo gerenciado pelo comando "oc"
+oc projects
+
+# Obtem apenas o projeto que está sendo gerenciado pelo comando "oc"
+oc project
+
+# Seta o projeto padrão para ser gerenciado pelo comando "oc"
+oc project [project-name]
+
+# Lista todos os projetos
+oc get project
+oc get projects
+
+# Criar projeto
+oc new-project [name] --display-name [name] --description [description]
+oc new-project dev --display-name "Desenvolvimento" --description "Projeto de testes"
+
+# Deleta tudo do projeto (cuidado)
+oc delete all --all
+
