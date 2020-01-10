@@ -1,15 +1,9 @@
 #!/bin/bash
 
-# Habilita ou desabilita as métricas de HPA
+# Habilita ou desabilita a stack do prometheus + grafana + alert manager
 sudo su
 vi /etc/ansible/hosts
 openshift_cluster_monitoring_operator_install = true|false
-
-# Executa a playbook para reconfigurar as métricas
-ansible-playbook /root/openshift-ansible/playbooks/metrics-server/config.yml
-
-# Validar se o projeto "openshift-metrics" foi certificado
-oc get pods -n openshift-metrics-server
 
 # Habilia as interfaces
 ansible-playbook /root/openshift-ansible/playbooks/openshift-monitoring/config.yml

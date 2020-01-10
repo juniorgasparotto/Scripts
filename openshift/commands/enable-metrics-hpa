@@ -5,7 +5,13 @@ sudo su
 vi /etc/ansible/hosts
 openshift_metrics_install_metrics = true|false
 
-# Executa a playbook para reconfigurar as métricas
+# Esta é a única necessária para o HPA
+ansible-playbook /root/openshift-ansible/playbooks/metrics-server/config.yml
+
+# Validar se o projeto "openshift-metrics-server" foi adicionado
+oc get pods -n openshift-metrics-server
+
+# Instala o Hawkular + Cassandra, é para os gráficos da dashboard.
 ansible-playbook /root/openshift-ansible/playbooks/openshift-metrics/config.yml
 
 # Aceitar o certificado no browser

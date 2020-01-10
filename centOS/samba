@@ -134,4 +134,15 @@ smbclient -L 192.168.0.10
 
         # Se nao funcionar, tente executar os passos (abrir a porta 137)
         #/centOS/open-ports
+
+        
 # QUANDO TEM OPENSHIFT INSTALADO
+
+# ADICIONA NO FIREWALL PERMANENTEMENTE (não precisa mais de reboot)
+sudo vi /etc/sysconfig/iptables
+-A INPUT -i eno1 -p udp --dport 137 -s 192.168.0.10/24 -j ACCEPT
+-A INPUT -i eno1 -p udp --dport 138 -s 192.168.0.10/24 -j ACCEPT
+-A INPUT -i eno1 -p tcp --dport 139 -s 192.168.0.10/24 -j ACCEPT
+-A INPUT -i eno1 -p tcp --dport 445 -s 192.168.0.10/24 -j ACCEPT
+[reebot]
+# ADICIONA NO FIREWALL PERMANENTEMENTE (não precisa mais de reboot)

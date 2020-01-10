@@ -1,0 +1,15 @@
+1. Logar como root na máquina (use exit caso tenha logado com outro usuário)
+2. Atribuir os usuários como root (/centOS/add-user-as-sudo)
+3. Sair do root e logar com o usuário
+4. Se passar por root (sudo su)
+5. Setar ip fixo (/centOS/ip-static)
+6. Instalar openshift (/openshift/install/ansible-all-in-one/install)
+7. Configurar as métricas do HPA (/openshift/commands/enable-metrics-hpa)
+8. Configurar as métricas (/openshift/commands/enable-metrics-server)
+9. Configurar as métricas (/openshift/commands/enable-metrics-monitoring-prometheus)
+10. Setup do HD de 2TB no diretório "/files" (/centOS/mount-hd)
+11. Setup Samba do diretório "/files" (/centOS/samba) (usar o root no windows)
+12. Setup NFS do diretório "/files/registry" (/centOS/nfs)
+13. Setup NFS para o registry do docker (/openshift/commands/image-change-docker-registry-to-nfs)
+14. ****************** Criar alguns PVs para facilitar a instalação de projetos (20 PV de 10GB) 
+15. Configurar o S2I para criar imagens via linha de comando

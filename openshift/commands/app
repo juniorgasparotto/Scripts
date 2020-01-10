@@ -19,6 +19,14 @@ oc new-app -S --template=ruby
 oc new-app -S --image-stream=mysql
 oc new-app -S --docker-image=python
 
+# Cria uma aplicação usando outra tag do image stream
+oc new-app --name [name] [image-stream]:[tag]
+oc new-app --name debian:buster-slim
+
+# Da forma acima, estamos sujeitos a remover a imagestream ao usar o oc delete all -l app=debian
+# da forma abaixo eliminamos esse risco e a imagemstream não é mais deletada
+oc import-image docker.io/library/debian:buster-slim --confirm
+
 # Cria uma aplicação 
 oc new-app --name [name] [image-stream]~[git-repository-url]
 oc new-app --name [name] [image-stream]~[git-repository-url#branch-name]

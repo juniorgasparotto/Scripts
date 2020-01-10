@@ -5,7 +5,41 @@ oc get imagestream -n [namespace]
 oc get imagestream -n openshift 
 oc get is -n openshift
 
+# Obtem todas as tags do projeto atual
+oc get imagestreamtag
+
+# Obtem todas as tags do projeto openeshift
+ oc get imagestreamtag -n openshift
+
 # Busca todas as imagens com o GREP para buscar no resultado
 oc get imagestream -n [namespace] | grep [img-name]
 oc get imagestream -n openshift | grep nginx
 oc get is -n openshift | grep nginx
+
+# Visualiza melhor um image stream
+oc describe is ruby -n openshift
+
+# Importar uma imagem do docker hub
+oc import-image docker.io/drupal --confirm
+
+# Adicionar uma nova versão de imagem ao imagestream que está no projeto "teste"
+oc tag docker.io/drupal:fpm-alpine teste/drupal:fpm-alpine
+oc describe is drupal
+
+# Criar um imagestrem
+oc create is [name]
+oc create is blog
+
+# Adiciona uma tag no IS
+oc tag [source] [name]:[tag]
+oc tag docker.io/drupal-alpine blog:docker
+oc tag quay.io/juniorgasparotto/drupal-alpine blog:quay
+oc get is
+oc describe is blog 
+
+# Para criar um secret e configurar no imagestrem
+oc create secret [secret-type] [name] --docker-server=[server] --docker-username=[username] --docker-password=[pwd]
+oc create secret docker-registry MY_QUAY_SECRET --docker-server=https://quay.io  --docker-password=senha --docker-username="juniorgasparotto"
+
+# Força a atualização do repositório para obter o secret (ele encontra o secret pelo endereço)
+oc import-image blog:quay

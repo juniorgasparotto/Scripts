@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Se passar como root
+sudo su
+
+# Instalar utilitários
+yum update
+yum install git
+
+# Clonar o repo de scripts
+git clone https://github.com/juniorgasparotto/Scripts
+
+# Setar IP Fixo: cat /etc/sysconfig/network-scripts/ifcfg-eth0
+cp /Scripts/skynet/etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts
+
+# Troque a interface para usar o arquivo eth0 (edite pela interface)
+nmtui
+
+# Restart a rede
+service network restart
+
+# Verificar se deu tudo certo
+ip add
+ping 8.8.8.8
+curl google.com

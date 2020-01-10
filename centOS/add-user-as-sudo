@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# 1) Logar como root na máquina (use exit caso tenha logado com outro usuário)
+
+# 2) Atribuir os usuários como root
+echo "[USER] ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "junior ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# 3) Sair do root
+exit

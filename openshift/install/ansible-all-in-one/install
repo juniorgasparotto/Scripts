@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# DEBUG
 # ansible-playbook -vvvv /root/openshift-ansible/playbooks/prerequisites.yml | tee output3.txt
 
 # liga o debug

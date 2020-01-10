@@ -26,6 +26,7 @@ oc exec site-1-jngrv cat /etc/os-release
 
 # Entra dentro da POD para executar comandos
 oc exec -ti [podname] sh
+oc exec -ti PODNAME sh -c CONTAINER_NAME
 oc exec -ti alpine-7656fc89b6-vjcf4 sh
 oc exec -ti alpine-files-658f4d8b5b-qt6bb sh
 oc exec -ti alpine-files2-9c6cbf4bb-mv464 sh

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# O docker é instalado como root, então é preciso logar como root
+sudo su
+
+# Instala o wget
+sudo yum install wget
+
+# Instala o tree para analisar as pastas
+sudo yum install tree
+
+# Baixa o s2i
+wget https://github.com/openshift/source-to-image/releases/download/v1.2.0/source-to-image-v1.2.0-2a579ecd-linux-amd64.tar.gz
+
+# Descompacta
+tar -xzf source-to-image-v1.2.0-2a579ecd-linux-amd64.tar.gz
+
+# Joga o binario para a bin
+sudo mv s2i sti /usr/local/bin/
+
+# Cria a imagem S2I
+s2i create [image-name] [directory-name]
+s2i create lighttpd-centos7 s2i-lighttpd
+
+tree s2i-lighttpd/
+
+# Configura todos os arquivos
+...
+
+# Gera a imagem
+cd s2i-lighttpd
+make
+
+# Verifica se deu tudo certo
+docker run lighttpd-centos7
+
+# Usa a imagem gerada para criar uma outra imagem com a aplicação
+s2i build [url-repository] [image-base] [image-name]
+s2i build https://github.com/4linux/lighttpd-ex.git lighttpd-centos7 lighttpd-ex
+
+# Executa o container (--rm: Remove o container de build)
+docker run -ti --rm -p 9191:8080 lighttpd-ex
+
+# Para a imagem aparecer no catalogo é necessário criar um imagestream, para isso tem que subir no docker.hub ou no registry interno
+docker tag lighttpd-centos7 docker-registry.default.svc:5000/[project-name]/lighttpd-centos7
+docker push docker-registry.default.svc:5000/[project-name]/lighttpd-centos7
+
+# Importa a imagem (cria image stream; tem que usar o namespeace do openshift para exibir no catalogo)
+oc import-image docker-registry.default.svc:5000/[project-name]/lighttpd-centos7 --confirm -n openshift
+
+# Edita as annotations para aparecer no catalogo
+oc get is lighttpd-centos7 -n openshift
+
+# é preciso editar o conteudo com os campos obrigatorios para aparecer no catalogo (tem que ter a tag builder)
+....
