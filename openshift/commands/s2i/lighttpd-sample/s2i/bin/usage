@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+# O script usage é apenas uma mensagem de ajuda que explica como a imagem funciona.
+
+cat <<EOF
+Esta é a imagem S2I lighttpd-centos7:
+Para utilizá -la, instale o S2I: https://github.com/openshift/source-to-image
+
+Exemplo de uso:
+
+s2i build https://github.com/4linux/lighttpd-ex.git lighttpd-centos7 lighttpd-ex
+
+E então você poderá rodar a imagem resultando com:
+docker run -p 8080:8080 lighttpd-ex
+EOF

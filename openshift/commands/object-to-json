@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Obtem o conteúdo de um objeto
+oc get -o json [object] [name]
+oc get -o json secret console-oauth-config -n openshift-console
+oc get -o json configmap console-config -n openshift-console
+
+# Gera um arquivo com o output de uam estrutura de um objeto
+# O argumento dry-run serve para não executar, mas sim, apenas gerar a saida
+oc create deploy alpine --image alpine --dry-run -o json > output.yml

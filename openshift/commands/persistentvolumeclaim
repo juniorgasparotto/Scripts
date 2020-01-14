@@ -6,21 +6,11 @@ oc get pvc
 
 #### TEMPLATE do tipo HOST-PATH #####
 
-# modelo de objeto
+# modelo de objeto (copia do arquivo abaixo)
 vi pvc-files.yml
 
 # Conteudo de um PVC
-apiVersion: v1
-kind: "PersistentVolumeClaim"
-metadata:
-  name: "pvc-hostpath"
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: "5Gi"
-  volumeName: "pv-hostpath"
+./persistentvolumeclain.yaml
 
 # Criar o PV
 oc create -f pvc-files.yml

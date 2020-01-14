@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+# assemble=montar em inglês
+# O assemble - montar em inglês - é o script que faz o trabalho pesado. Neste caso ele apenas pega o conteúdo que futuramente
+# será clonado e adiciona no diretório que o lighttpd lerá.
+
+#
+# Script S2I para montar a image de 'lighttpd -centos7 '.
+# O script 'assemble' constrói sua aplicação para que ela fique pronta.
+#
+
+# Se o script dessa imagem for executado com '-h', escrever a mensagem de ajuda.
+if [[ "$1" == "-h" ]]; then
+ exec /usr/libexec/s2i/usage
+fi
+
+echo "---> Instalando código da aplicação ..."
+cp -Rf /tmp/src/. ./

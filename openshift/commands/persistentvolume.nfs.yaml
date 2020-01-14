@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-redis
+spec:
+  capacity:
+    storage: 512Mi
+  accessModes:
+  - ReadWriteMany
+  - ReadWriteOnce
+  nfs:
+    server: 192.168.0.10
+    path: /files/registry

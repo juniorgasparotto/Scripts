@@ -1,0 +1,16 @@
+# diretório onde os arquivos do site estarão
+server.document-root = "/opt/app-root/src"
+
+# porta em que o lighttpd escutará
+server.port = 8080
+
+# arquivo padrão quando nenhum for especificado na URL
+index-file.names = ( "index.html" )
+
+# mimetypes por extensão , do contrário application/octet -stream será utilizado
+mimetype.assign = (
+    ".html" => "text/html",
+    ".txt" => "text/plain",
+    ".jpg" => "image/jpeg",
+    ".png" => "image/png"
+)

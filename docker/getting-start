@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Localizar a imagem
+docker search centos |head -n5
+
+# Baixar a imagem
+docker pull centos
+
+# Rodar a imagem
+docker run -ti centos /bin/bash

@@ -1,0 +1,2 @@
+# Verifica o tamanho da pasta local
+du -sh

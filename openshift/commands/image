@@ -31,3 +31,7 @@ docker save memcached:alpine -o memcached.tar
 
 # Carregar uma imagem de um arquivo TAR
 docker load -i memcached.tar
+
+# Além do pull,o Openshift possuí uma forma muito mais conveniente para importar imagens para dentro do cluster, criando um ImagemStream. Para isso basta utilizarmos o subcomando import-image, com este comando podemos importar imagens de qualquer registry que temos acesso:
+oc import-image 'docker.io/memcached' --confirm
+

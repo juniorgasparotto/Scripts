@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Configura o daemon.json para funcionar internet dentro dos containers e outras coisas
+sudo wget -c -P /etc/docker https://raw.githubusercontent.com/juniorgasparotto/Scripts/master/docker/daemon.json --no-cache
+
+# Restart o docker
+sudo service docker restart;

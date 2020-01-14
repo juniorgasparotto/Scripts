@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# https://stackoverflow.com/questions/20578039/difference-between-kvm-and-lxc
+# https://wiki.centos.org/HowTos/LXC-on-CentOS6
+
+# LXC ou Linux Containers são as unidades de virtualização leves e portáteis 
+# baseadas em SO que compartilham o kernel do sistema operacional base, mas ao 
+# mesmo tempo atuam como ambientes isolados com seu próprio sistema de arquivos, 
+# processos e pilha TCP / IP. Eles podem ser comparados ao Solaris Zones ou Jails 
+# no FreeBSD. Como não há sobrecarga de virtualização, eles têm um desempenho muito 
+# melhor do que as máquinas virtuais.
+
+# Install libvirt stack
+yum install libvirt libvirt-client python-virtinst 

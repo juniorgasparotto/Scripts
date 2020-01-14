@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# https://blog.openshift.com/create-s2i-builder-image/
+
+# O docker é instalado como root, então é preciso logar como root
+sudo su
+
+# Instala o wget
+sudo yum install wget
+
+# Instala o tree para analisar as pastas
+sudo yum install tree
+
+# Baixa o s2i
+wget https://github.com/openshift/source-to-image/releases/download/v1.2.0/source-to-image-v1.2.0-2a579ecd-linux-amd64.tar.gz
+
+# Descompacta
+tar -xzf source-to-image-v1.2.0-2a579ecd-linux-amd64.tar.gz
+
+# Joga o binario para a bin
+sudo mv s2i sti /usr/local/bin/
+
+# Cria a imagem S2I
+s2i create [image-name] [directory-name]
+s2i create lighttpd-centos7 lighttpd-sample
+
+tree lighttpd-sample
+
+# Copie o diretorio abaixo para o server (e Configura todos os arquivos)
+cp /files/lighttpd-sample .
+
+# Gera a imagem
+cd lighttpd-sample
+make
+
+# Verifica se deu tudo certo
+docker run lighttpd-centos7
+
+# Usa a imagem gerada para criar uma outra imagem com a aplicação
+s2i build [url-repository] [image-base] [image-name]
+s2i build https://github.com/4linux/lighttpd-ex.git lighttpd-centos7 lighttpd-ex-openshift
+
+# Executa o container (--rm: Remove o container de build)
+docker run -ti --rm -p 9191:8080 lighttpd-ex-openshift
+
+# Teste 
+# http://192.168.0.10:9191/
+
+# Cria a secret para o projeto openshift para que o ImageStream posso ter acesso no registry interno
+oc create secret docker-registry internal-registry --docker-server=docker-registry.default.svc:5000 --docker-username="junior" --docker-password=junior -n openshift
+
+# Para a imagem aparecer no catalogo é necessário criar um imagestream, para isso tem que subir no docker.hub ou no registry interno
+docker login docker-registry.default.svc:5000 -u junior -p $(oc whoami -t)
+docker tag lighttpd-centos7 docker-registry.default.svc:5000/openshift/lighttpd-centos7
+docker push docker-registry.default.svc:5000/openshift/lighttpd-centos7
+
+# Importa a imagem (cria image stream; tem que usar o namespeace do openshift para exibir no catalogo)
+oc import-image docker-registry.default.svc:5000/[project-name]/lighttpd-centos7 --confirm -n openshift
+oc import-image docker-registry.default.svc:5000/teste/lighttpd-centos7 --confirm -n openshift
+
+# Edita as annotations para aparecer no catalogo
+oc edit is lighttpd-centos7 -n openshift -o json
+
+# é preciso editar o conteudo com os campos obrigatorios para aparecer no catalogo (tem que ter a tag builder)
+"metadata": {                                                                           
+    "annotations": {                                                                       
+        "openshift.io/display-name": "Lighttpd Server (lighttpd)",                         
+        "openshift.io/image.dockerRepositoryCheck": "2020-01-12T20:36:38Z"                 
+    },                                   
+...
+ "tags": [                                                                           
+     {                                                                               
+         "annotations": {                                                            
+             "description": "Build and run a Lighttpd Server 1.4.53 on CentOS 7.",   
+             "iconClass": "fa fa-paper-plane-o",                                     
+             "openshift.io/display-name": "Lighttpd 1.4.53",                         
+             "openshift.io/provider-display-name": "4Linux",                         
+             "sampleRepo": "https://github.com/4linux/lighttpd-ex.git",              
+             "tags": "builder,lighttpd",                                             
+             "version": "1.4.53"                                                     
+         },                                                                          
+         "from": {                                                                   
+             "kind": "DockerImage",                                                  
+             "name": "docker-registry.default.svc:5000/teste/lighttpd-centos7"       
+         },                                                                          
+         "generation": 1,                                                            
+         "importPolicy": {},                                                         
+         "name": "latest",                                                           
+         "referencePolicy": {                                                        
+             "type": "Source"                                                        
+         }                                                                           
+     }
+ ]

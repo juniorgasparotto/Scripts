@@ -16,35 +16,8 @@ oc delete deploy memcached
 # modelo de objeto
 vi deploy.yml
 
-# Conteudo
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: alpine
-  name: alpine
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: alpine
-  template:
-    metadata:
-      labels:
-        app: alpine
-    spec:
-      volumes:
-      - name: cache
-        persistentVolumeClaim:
-          claimName: pvc-hostpath
-      containers:
-      - image: alpine
-        name: alpine
-        tty: true
-        stdin: true
-        volumeMounts:
-        - name: cache
-          mountPath: /tmp/cache
+# Conteudo (Obter do arquivo)
+./deployment.object
 
 # Criar o deploy
 oc create -f deploy.yml

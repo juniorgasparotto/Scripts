@@ -6,36 +6,14 @@ oc get pv
 
 #### TEMPLATE do tipo HOST-PATH #####
 
-# modelo de objeto
+# modelo de objeto (depois de criar o arquivo, copie o conteudo do arquivo do tipo do PV que deseja criar o PV)
 vi pv-files.yml
 
 # Conteudo de um PV (HOSTPATH)
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-hostpath
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-  - ReadWriteOnce
-  hostPath:
-    path: /tmp/alpine
+./persistentvolume.host-path.yaml
 
 # Conteudo de um PV (NFS)
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-redis
-spec:
-  capacity:
-    storage: 512Mi
-  accessModes:
-  - ReadWriteMany
-  - ReadWriteOnce
-  nfs:
-    server: 192.168.0.10
-    path: /files/registry
+./persistentvolume.nfs.yaml
 
 # Criar o PV
 oc create -f pv-files.yml

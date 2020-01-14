@@ -1,4 +1,6 @@
-https://linuxacademy.com/guide/15473-introduction-to-/
+#!/bin/bash
+
+# https://linuxacademy.com/guide/15473-introduction-to-/
 
 # listar todas 
 iptables -S

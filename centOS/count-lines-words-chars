@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# https://cmdlinetips.com/2011/08/how-to-count-the-number-of-lines-words-and-characters-in-a-text-file-from-terminal/
+
+# conta a quantidade de linhas, quantidade de palavras (inclui repetição), e quantidade de caracteres
+echo "A B C CL" | wc

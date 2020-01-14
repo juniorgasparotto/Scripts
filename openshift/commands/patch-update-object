@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Edita um objeto sem precisar editar o objecto
+oc patch 

@@ -1,3 +1,8 @@
 # adicionar um usuário a um grupo
 usermod -a -G smbgrp root
 usermod -a -G smbgrp junior
+
+# Mudar o grupo de usuário e usuário de um arquivo/pasta
+chown [user]:[group] [folder]
+chown root:root .
+chown -R root:root .

@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+## O run é o comando chamado pelo CMD da imagem resultante
+
+#
+# Script S2I para rodar a imagem 'lighttpd-centos7'
+# Este script executa o servidor que exibe sua aplicação.
+#
+
+exec lighttpd -D -f /opt/app-root/etc/lighttpd.conf
