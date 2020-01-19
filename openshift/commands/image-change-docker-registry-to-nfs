@@ -86,3 +86,6 @@ sudo docker pull docker-registry.default.svc:5000/openshift/nginx
 
 sudo docker tag memcached:alpine docker-registry.default.svc:5000/teste/memcached:alpine
 sudo docker push docker-registry.default.svc:5000/teste/memcached:alpine
+
+# Criar a secret para os ImageStream funcionarem
+oc create secret docker-registry internal-registry --docker-server=docker-registry.default.svc:5000 --docker-username="junior" --docker-password=junior -n openshift

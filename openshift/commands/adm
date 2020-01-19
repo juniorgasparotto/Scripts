@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Obtem os PODs de todos os nodes
+oc adm manage-node [node-name] --list-pods
+oc adm manage-node okd.example.com --list-pods
+
+# Obtem os nodes com maiores problemas
+oc adm top nodes

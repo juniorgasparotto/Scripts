@@ -1,0 +1,9 @@
+apiVersion: v1 
+kind: Pod
+metadata: 
+  name: httpd 
+  spec: 
+    nodeName: okd.example.com 
+    containers: 
+    - name: httpd 
+        image: centos/httpd-24-centos7

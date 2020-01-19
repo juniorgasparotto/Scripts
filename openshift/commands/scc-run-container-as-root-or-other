@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Obtem os contextos de seguranças
+oc get scc
+oc get securitycontextconstraints
+
+# Obtem as contas de serviços (service accounts)
+oc get sa
+
+# Obtem o id de usuário de um pod
+oc rsh dc/memcached id
+
+# Adiciona uma nova politica de SCC para uma conta de serviço (logue no projeto)
+oc project [project-name]
+oc adm policy add-scc-to-user anyuid -z default
+
+# Remove um SCC de uma conta de serviço
+oc adm policy remove-scc-to-user anyuid -z default

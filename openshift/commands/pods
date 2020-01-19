@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Obtem todos os pods de todos os namespaces
+oc get pods --all-namespaces
+
 # Lista todas as PODs
 oc get pods
 
@@ -32,3 +35,6 @@ oc exec -ti alpine-files-658f4d8b5b-qt6bb sh
 oc exec -ti alpine-files2-9c6cbf4bb-mv464 sh
 oc exec -ti site-4-ldcsb sh
 oc exec -ti grafana-6b9f85786f-dg7lp sh
+
+# Verifica quais PODs consomem mais recurso
+oc adm top pod --all-namespaces

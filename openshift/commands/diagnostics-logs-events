@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Obtem os PODs de todos os nodes
+oc adm manage-node [node-name] --list-pods
+oc adm manage-node okd.example.com --list-pods
+
+# Obtem os nodes com maiores problemas
+oc adm top nodes
+
+# Quando a máquina está fora, veririca o serviço 
+journalctl -u origin-node -f
+
+# Verifica quais PODs consomem mais recurso
+oc adm top pod --all-namespaces
+
+# Para verificar se existe problemas na API ou no controller (PODs estáticos)
+oc get pods -n kube-system
+
+# Verifica o local físico desses PODS (qualquer arquivo de POD.YAML aqui será provisionado automaticamente)
+ls /etc/origin/node/pods
+
+# Verifica o log de cada POD 
+oc logs -f master-api-okd.example.com -n kube-system
+oc logs -f master-controllers-okd.example.com -n kube-system
+oc logs -f master-etcd-okd.example.com -n kube-system
+
+# Obtem todos os eventos 
+oc get event --all-namespaces
+
+# Utilizar o describe para obter infos de objetos 
+oc describe pod master-api-okd.example.com -n kube-system
+
+# Verifica os logs dos pods estáticos
+master-logs api api
+master-logs controllers controllers
+master-logs etcd etcd
+
+# Caso o openshift (cluster) saia do ar, verifique pelo docker 
+docker ps -a | grep [pod-name]
+docker logs [id]
+
+# Ferramenta para encontrar erros gerais
+oc adm diagnostics --help
+
+# Ferramenta para encontrar erros gerais
+oc adm diagnostics
+
+# Ferramenta para encontrar erros na criação de uma aplicação (-l nível de debug)
+oc adm diagnostics appcreate
+oc adm diagnostics appcreate -l 4 
+
+# Ferramenta para encontrar erros nas métricas  (-l nível de debug)
+oc adm diagnostics metricsapiproxy
+oc adm diagnostics metricsapiproxy -l 4 
+
+# Ferramenta para encontrar erros de rede
+oc adm diagnostics networkcheck
+oc adm diagnostics networkcheck -l 4 

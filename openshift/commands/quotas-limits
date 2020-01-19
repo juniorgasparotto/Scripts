@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Cria um modelo de Project Template e joga em um arquivo (adicionar um nome "project-request")
+oc adm create-bootstrap-project-template -o yaml > project-template.yaml
+
+# Gera o Template de projeto a partir de um arquivo (tem que usar o namespace default)
+oc create -f project-template.yaml -n default
+
+# Obtem o template 
+oc get template -n default
+
+# Após a criação do template é necessário alterar o arquivo de config do master
+vi /etc/origin/master/master-config.yaml
+
+# Localizar a linha "projectRequestTemplate" e trocar:
+
+projectConfig:
+  defaultNodeSelector: node-role.kubernetes.io/compute=true
+  projectRequestMessage: ''
+  projectRequestTemplate: 'default/project-request'
+
+# Restart da API do master
+master-restart api
+
+# Criar um projeto
+oc new-project meu-projeto
+
+# Agora haverá quotas
+oc get quota
+oc get resourcequota
+
+# obtem os limites
+oc get limits
+oc get limitrange

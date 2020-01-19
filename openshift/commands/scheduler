@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Para o master receber nodes, ele precisa ter o label "node-role.kubernates.io/compute=true"
+oc get nodes --show-labels
+
+# Adiciona um label no master para ser compute-node
+oc label node okd.example.com node-role.kubernates.io/compute=true
+
+# Criar um POD para ir para um node especifico (nodeName: nome do pod)
+apiVersion: v1 
+kind: Pod
+metadata: 
+  name: httpd 
+  spec: 
+    nodeName: okd.example.com 
+    containers: 
+    - name: httpd 
+        image: centos/httpd-24-centos7
+
+# Adiciona um label no NODE informando que ele tem SSD
+oc label node okd.example.com disk=ssd
+
+# Criar um POD para ir para um node que tenha SSD
+apiVersion: v1 
+kind: Pod
+metadata: 
+  name: httpd 
+  spec: 
+    nodeSelector: 
+        disk: ssd
+    containers: 
+    - name: httpd 
+        image: centos/httpd-24-centos7
+
+# Isolar um node para não receber PODs
+oc adm cordon [node-name]
+oc adm cordon okd.example.com
+
+# Evacuar um POD de um node na medida do possível
+oc adm drain [node-name]
+oc adm drain okd.example.com
+
+# Evacuar um POD de um node ignorando problemas (remove PODs)
+oc adm drain [node-name] --ignore-dameonset --force
+oc adm drain okd.example.com --ignore-dameonset --force
+
+# Voltar a ativar um node
+oc adm uncordon [node-name]
+oc adm uncordon okd.example.com

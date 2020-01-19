@@ -4,3 +4,6 @@
 oc scale deploy [name] --replicas=0
 oc scale deploy alpine --replicas=0
 oc scale deploy alpine --replicas=1
+
+# scale um DC
+oc scale dc [nome] --replicas=10

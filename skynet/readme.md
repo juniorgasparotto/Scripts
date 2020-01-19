@@ -12,5 +12,6 @@
 * Setup Samba do diretório "/files" (/centOS/samba) (usar o root no windows)
 * Setup NFS do diretório "/files/registry" (/centOS/nfs)
 * Setup NFS para o registry do docker (/openshift/commands/image-change-docker-registry-to-nfs)
+  * Criar o secret também para quando subir imagem no registry interno
 * ****************** Criar alguns PVs para facilitar a instalação de projetos (20 PV de 10GB) 
 * Configurar o S2I para criar imagens via linha de comando

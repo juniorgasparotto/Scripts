@@ -3,8 +3,18 @@
 # Obtem a lista de todos os nodes
 oc get nodes
 
+# Obtem os labels dos nodes (descobre se é master, node, compute, infra)
+oc get nodes --show-labels
+
+# Adiciona um label no master para ser compute-node
+oc label node okd.example.com node-role.kubernates.io/compute=true
+
 # Verifica o node que está consumindo mais memória
 oc adm top nodes
 
 # Restarta o serviço de nodes
 systemctl restart origin-nodes
+
+# Obtem os PODs de todos os nodes
+oc adm manage-node [node-name] --list-pods
+oc adm manage-node okd.example.com --list-pods

@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# CUIDADO: Antes de trocar o plugin multitant para outro, é preciso deixar todos os namespaces GLOBAIS.
+oc get projects --no-headers | cut -d' ' -f1 | xargs oc oc adm pod-network make-projects-global
+
+# Verifica o tipo de plugin atual
+cat /etc/origin/master/master-config.yaml | grep networkPluginName
+
+# Editar o arquivo do master
+vi /etc/origin/master/master-config.yaml
+
+# Editar o conteúdo
+networkConfig:
+  clusterNetworks:
+  - cidr: 10.128.0.0/14
+    hostSubnetLength: 9
+  externalIPNetworkCIDRs:
+  - 0.0.0.0/0
+  networkPluginName: redhat/openshift-ovs-multitenant
+
+# Troca de projeto
+oc project openshift-node
+
+# Obtem os config maps
+oc get cm -n openshift-node
+
+# Edita o config map quando for all-in-one no cluster
+oc edit cm node-config-all-in-one -n openshift-node
+
+# Edita o config map quando tiver mais de um node físico no cluster
+oc edit cm node-config-compute -n openshift-node
+oc edit cm node-config-master-infra -n openshift-node 
+
+# Troca o conteúdo
+networkConfig:
+    mtu: 1450
+    networkPluginName: redhat/openshift-ovs-multitenant
+
+# Restart a API do master
+master-restart api
+
+# Reinicar os controllers
+master-restart controllers
+
+# Para o serviço de osquestração do node (Deve para o serviço de todas as máquinas)
+systemctl status origin-node
+
+# Verifica se todas as máquinas do cluster estão pingando
+ansible all -m ping
+
+# Restart o serviço em todas as máquinas
+ansible all -m service -a 'name=origin-node state=stopped'
+ansible all -m service -a 'name=origin-node state=started'
+
+# Remova todos os pods do openshift-sdn que é responsável pela definição de redes entre as máquinas
+# usa o "&" para rodar em background
+# Aguarde até apagar todos os pods, do contrário apaga tudo para recria-los
+
+bg
+oc delete pod --all -n openshift-sdn &
+
+# Obtem os netnamespaces (quando for igual a 0 é pq é global - quando for diferentes eles não se conversam)
+oc get netnamespaces
+
+# Deixar dois projetos juntos no isolamento (mesmo NETID)
+# É preciso apagar todos os PODs dos projetos necessários
+oc adm pod-network join-projects --to=[projectA] [projectB]
+
+# Isolar um projeto de outros (Diferente NETID)
+# É preciso apagar todos os PODs dos projetos necessários
+oc adm pod-network isolated-projects [project-name]
+
+# Transforma um namespace em global (NETID = 0)
+# É preciso apagar todos os PODs dos projetos necessários (vai zerar o NETNAMESPACE)
+oc adm pod-network make-projects-global [project-name]
