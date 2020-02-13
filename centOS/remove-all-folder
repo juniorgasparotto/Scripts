@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Remove tudo em uma pasta (-r=recursivo, -f=force)
+rm -rf [folder]

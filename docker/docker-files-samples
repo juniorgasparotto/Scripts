@@ -1,0 +1,3 @@
+# image base from aspnetcore
+https://github.com/dotnet/dotnet-docker/blob/master/2.1/aspnet/alpine3.10/amd64/Dockerfile
+

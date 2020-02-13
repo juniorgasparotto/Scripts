@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# http://www.mastertheboss.com/soa-cloud/openshift/accessing-openshift-services-remotely
+
+# Logar como admin
+
+sudo su
+oc login -u system:admin
+
+# Criar a nova app do mysql
+
+oc new-app mysql-ephemeral --name=mysqldemo
+oc expose service mysql
+oc get pods
+
+# Liberar apenas para consumo do host com a pod (localhost)
+
+oc port-forward mysql-1-wqgwg 3306:3306
+
+# Liberar para fora do cluster
+
+oc patch svc mysql -p '{"spec":{"externalIPs":["192.168.0.10"]}}'
+
+# Fora do cluster, entrar no mysql
+
+mysql -u [user] -p[pwd] --protocol tcp -h 192.168.0.10
+mysql -u userOW5 -pmOaykhqA2vOrql0N --protocol tcp -h 192.168.0.10

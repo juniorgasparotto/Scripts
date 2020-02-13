@@ -30,7 +30,8 @@ oc get event --all-namespaces
 # Utilizar o describe para obter infos de objetos 
 oc describe pod master-api-okd.example.com -n kube-system
 
-# Verifica os logs dos pods estáticos
+# Verifica os logs dos pods estáticos (LOGAR COMO ROOT)
+
 master-logs api api
 master-logs controllers controllers
 master-logs etcd etcd

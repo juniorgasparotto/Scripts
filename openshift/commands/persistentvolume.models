@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Criar directório para partilha
+mkdir /files/nfs1
+mkdir /files/nfs2
+mkdir /files/nfs3
+mkdir /files/nfs4
+mkdir /files/nfs5
+
+# Definir permissões
+chmod -R 777 /files/nfs1
+chmod -R 777 /files/nfs2
+chmod -R 777 /files/nfs3
+chmod -R 777 /files/nfs4
+chmod -R 777 /files/nfs5
+
+#  Indicar quais as máquinas que têm acesso à partilha
+vi /etc/exports
+
+/files/nf1 192.168.0.10/255.255.255.0(rw,all_squash)
+/files/nf2 192.168.0.10/255.255.255.0(rw,all_squash)
+/files/nf3 192.168.0.10/255.255.255.0(rw,all_squash)
+/files/nf4 192.168.0.10/255.255.255.0(rw,all_squash)
+/files/nf5 192.168.0.10/255.255.255.0(rw,all_squash)
+
+# Depois de realizada a configuração, vamos activar a exportação usando o comando
+exportfs -a;
+
+# Cria o arquivo e cole o conteudo do arquivo YAML dentro dele
+vi persistentvolume.models.yaml
+
+# Cria os PVS
+oc create -f persistentvolume.models.yaml

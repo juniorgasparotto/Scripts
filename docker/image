@@ -8,3 +8,6 @@ docker image rm [name-or-id] [--force]
 docker image rm lighttpd-centos7
 docker image rm lighttpd-centos7 --force
 docker image rm cf28d87f6c34 --force
+
+# Remover todas as images
+docker rmi --force $(docker images -a -q)

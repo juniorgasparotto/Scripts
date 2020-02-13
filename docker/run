@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Rodar um container sem entrar nele, mas prende o console (após sair dele, ele NAO morre)
+docker run [repo-name]:[tag-name]
+
+# Rodar um container e entrar nele (após sair dele, ele morre)
+docker run --interactive --tty [repo-name]:[tag-name]
+docker run -it [repo-name]:[tag-name]
+
+docker run -it mcr.microsoft.com/dotnet/core/sdk:2.2
+docker run --interactive --tty mcr.microsoft.com/dotnet/core/sdk:2.2
+
+# Rodar um container deixando ele rodando em background 
+docker run -d [repo-name]:[tag-name]
+
+# Rodar passando variavel de ambiente (nao sei o motivo, mas o --env tem que vim no inicio)
+# Não usar localhost, dá problema, use 0.0.0.0: ASPNETCORE_URLS="http://localhost:5000"
+docker run --env ASPNETCORE_URLS="https://0.0.0.0:5001;http://localhost:5000" -ti -p 5000:5000 spentbook
+docker run --env ASPNETCORE_URLS="http://0.0.0.0:5000" -ti -p 5000:5000 spentbook
+
+# 
+docker run --env ASPNETCORE_URLS= -ti -p 5000:5000 spentbook

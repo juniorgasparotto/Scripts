@@ -7,7 +7,7 @@
 # Lista todos os usuários na config padrão usando htpasswd
 cat /etc/origin/master/htpasswd
 
-# Criar usuário 
+# Criar usuário  / Atualiazar Senha
 htpasswd -Bb /etc/origin/master/htpasswd junior junior
 
 # Descobrir quem esta logado

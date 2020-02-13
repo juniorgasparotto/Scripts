@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Listar todos os containers
+docker container ps --all
+
+# Parar todos os containers
+docker stop $(docker ps -a -q)
+
+# Remover todos os containers
+docker rm $(docker ps -a -q)
+
+# Entrar no container
+docker exec -it [container-id] bash
+docker exec -it c244d891361f bash
