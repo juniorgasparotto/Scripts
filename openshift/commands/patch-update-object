@@ -2,3 +2,6 @@
 
 # Edita um objeto sem precisar editar o objecto
 oc patch 
+
+# Libera um service para acesso externo do cluster
+oc patch svc [service-name] -p '{"spec":{"externalIPs":["192.168.0.10"]}}'

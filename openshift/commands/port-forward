@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Libera uma porta no HOST para acessar uma porta dentro de uma porta
+oc port-forward [pod-name] [host-port:pod-port]
+oc port-forward my-cluster-zookeeper-0 9091:9091
